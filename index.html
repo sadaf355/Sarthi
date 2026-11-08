@@ -31,7 +31,7 @@
   --reb:#ecfeff;
   --reb-bd:#a5f3fc;
   --sh:0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
-  --sh-lg:0 4px 6px -1px rgba(15,23,42,0.08), 0 2px 4px -2px rgba(15,23,42,0.04);
+  --sh-lg:0 6px 16px -2px rgba(15,23,42,0.1), 0 3px 6px -3px rgba(15,23,42,0.06);
   color-scheme:light;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
@@ -66,7 +66,7 @@
     --reb:#083344;
     --reb-bd:#155e75;
     --sh:0 2px 4px rgba(0,0,0,0.4);
-    --sh-lg:0 8px 16px rgba(0,0,0,0.5);
+    --sh-lg:0 10px 24px rgba(0,0,0,0.5);
     color-scheme:dark;
   }
 }
@@ -98,14 +98,14 @@
   --reb:#083344;
   --reb-bd:#155e75;
   --sh:0 2px 4px rgba(0,0,0,0.4);
-  --sh-lg:0 8px 16px rgba(0,0,0,0.5);
+  --sh-lg:0 10px 24px rgba(0,0,0,0.5);
   color-scheme:dark;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 'Noto Sans Devanagari','Noto Sans',system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
-main{max-width:1120px;margin:0 auto;padding:20px 16px 100px}
-h1{font-size:24px;font-weight:700;color:var(--nv);letter-spacing:-0.02em;margin:0 0 10px;line-height:1.25}
-h2{font-size:18px;font-weight:600;color:var(--nv);letter-spacing:-0.01em;margin:0 0 12px;line-height:1.35}
+main{max-width:1120px;margin:0 auto;padding:20px 16px 110px}
+h1{font-size:24px;font-weight:700;color:var(--nv);letter-spacing:-0.02em;margin:0 0 10px;line-height:1.3;word-break:break-word}
+h2{font-size:18px;font-weight:600;color:var(--nv);letter-spacing:-0.01em;margin:0 0 12px;line-height:1.35;word-break:break-word}
 h3{font-size:15px;font-weight:600;color:var(--nv);margin:0 0 6px}
 p{margin:8px 0}
 .mut{color:var(--mut);font-size:13px}
@@ -123,16 +123,14 @@ button:hover{background:var(--pri-h)}
 button:disabled, button.loading{opacity:0.6;cursor:not-allowed;pointer-events:none}
 button.g{background:transparent;color:var(--nv);border:1px solid var(--bd)}
 button.g:hover{background:var(--pri-l);border-color:var(--pri)}
-button.sm{min-height:36px;padding:6px 12px;font-size:13px}
+button.sm{min-height:38px;padding:6px 12px;font-size:13px}
 input,select,textarea{width:100%;min-height:44px;font:inherit;font-size:14px;padding:10px 14px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx);margin:6px 0;transition:border-color .15s,box-shadow .15s;outline:none}
 input:focus,select:focus,textarea:focus{border-color:var(--pri);box-shadow:0 0 0 3px var(--pri-l)}
-textarea{min-height:120px;resize:vertical}
+textarea{min-height:110px;resize:vertical}
 label{font-size:13px;font-weight:500;color:var(--mut);display:block;margin-top:6px}
 
 /* Accessible Icons */
 .ic{width:18px;height:18px;flex:none;stroke-width:2;stroke:currentColor;fill:none;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;display:inline-block}
-.ic-lg{width:22px;height:22px}
-.ic-sm{width:14px;height:14px}
 
 /* Status Badges with WCAG AA compliance (Icon + Word + Color) */
 .badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:4px 10px;border-radius:99px;font-weight:600;line-height:1;border:1px solid transparent;white-space:nowrap}
@@ -147,47 +145,83 @@ label{font-size:13px;font-weight:500;color:var(--mut);display:block;margin-top:6
 
 /* Navigation */
 #top{position:sticky;top:env(safe-area-inset-top,0px);display:flex;gap:12px;align-items:center;padding:10px 16px;background:var(--card);border-bottom:1px solid var(--bd);z-index:4;box-shadow:var(--sh)}
-#top button{background:transparent;color:var(--nv);padding:8px;margin:0;min-height:44px;min-width:44px}
 #top b{font-size:17px;color:var(--nv)}
-#sb{position:fixed;top:0;bottom:0;left:0;width:260px;background:#0b111e;color:#cbd5e1;padding:calc(env(safe-area-inset-top,0px) + 16px) 12px 14px;overflow-y:auto;z-index:8;transform:translateX(-100%);transition:transform .2s;display:flex;flex-direction:column;gap:3px}
+.lang-switch{display:flex;align-items:center;background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:2px;margin-left:auto}
+.lang-switch button{background:transparent;color:var(--mut);border:0;border-radius:8px;padding:4px 10px;min-height:36px;margin:0;font-size:12px;font-weight:600}
+.lang-switch button.on{background:var(--pri);color:#fff}
+
+#sb{position:fixed;top:0;bottom:0;left:0;width:270px;background:#0b111e;color:#cbd5e1;padding:calc(env(safe-area-inset-top,0px) + 16px) 12px 14px;overflow-y:auto;z-index:8;transform:translateX(-100%);transition:transform .2s;display:flex;flex-direction:column;gap:4px}
 .menu #sb{transform:none}
-#sb .br{display:flex;gap:12px;align-items:center;padding:6px 8px 18px;border-bottom:1px solid #1e293b;margin-bottom:8px}
+#sb .br{display:flex;gap:12px;align-items:center;padding:6px 8px 16px;border-bottom:1px solid #1e293b;margin-bottom:8px}
 #sb .lg{width:40px;height:40px;border-radius:12px;background:var(--pri);color:#fff;display:grid;place-items:center;flex:none}
 #sb .lg .ic{width:22px;height:22px}
 #sb .br b{color:#fff;display:block;font-size:16px;font-weight:700}
 #sb .br span{font-size:12px;color:#94a3b8}
-#sb a{display:flex;gap:12px;align-items:center;padding:11px 14px;min-height:44px;border-radius:10px;color:#cbd5e1;text-decoration:none;font-size:14px;font-weight:500;transition:background .15s,color .15s}
+
+/* Grouped navigation headers */
+.sb-group{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;padding:10px 12px 4px;margin-top:4px}
+#sb a{display:flex;gap:12px;align-items:center;padding:10px 12px;min-height:44px;border-radius:10px;color:#cbd5e1;text-decoration:none;font-size:14px;font-weight:500;transition:background .15s,color .15s}
 #sb a .ic{width:18px;height:18px;color:#94a3b8}
 #sb a.on{background:var(--pri);color:#ffffff;font-weight:600}
 #sb a.on .ic{color:#ffffff}
 #sb a:hover:not(.on){background:#1e293b;color:#ffffff}
-#sb button{display:none;margin-top:auto;background:transparent;border:1px solid #334155;color:#cbd5e1;min-height:44px}
-#sb button:hover{background:#1e293b}
+#sb button.collapse-btn{display:none;margin-top:auto;background:transparent;border:1px solid #334155;color:#cbd5e1;min-height:44px;width:100%}
+#sb button.collapse-btn:hover{background:#1e293b}
+
 #bn{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5;box-shadow:0 -1px 4px rgba(0,0,0,0.04)}
-#bn a{flex:1;text-align:center;padding:8px 4px;min-height:52px;font-size:11px;color:var(--mut);text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-weight:500}
+#bn a{flex:1;text-align:center;padding:8px 4px;min-height:54px;font-size:11px;color:var(--mut);text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-weight:500}
 #bn a .ic{width:20px;height:20px}
 #bn a.on{color:var(--pri);font-weight:700;box-shadow:inset 0 -3px var(--pri)}
+
 @media(min-width:820px){
-  #top,#bn{display:none}
-  #sb{transform:none;width:250px}
-  #sb button{display:flex}
-  main{margin:0 auto 0 270px;padding-bottom:40px}
-  .col #sb{width:78px}
-  .col #sb .l,.col #sb .br>div:last-child{display:none}
-  .col #sb a{justify-content:center;padding:11px}
-  .col main{margin-left:98px}
+  #top button#menuBtn,#bn{display:none}
+  #sb{transform:none;width:260px}
+  #sb button.collapse-btn{display:flex}
+  main{margin:0 auto 0 280px;padding-bottom:40px}
+  .col #sb{width:80px}
+  .col #sb .l,.col #sb .sb-group,.col #sb .br>div:last-child{display:none}
+  .col #sb a{justify-content:center;padding:12px}
+  .col main{margin-left:100px}
+  #fab{display:none!important}
 }
 
-/* Attendance single-hand touch list */
+/* Floating Action Button on phones */
+#fab{position:fixed;bottom:72px;right:18px;z-index:6}
+.fab-main{width:54px;height:54px;border-radius:27px;background:var(--pri);color:#fff;border:0;box-shadow:var(--sh-lg);display:grid;place-items:center;cursor:pointer;padding:0;margin:0}
+.fab-main .ic{width:24px;height:24px}
+.fab-menu{display:none;position:absolute;bottom:64px;right:0;background:var(--card);border:1px solid var(--bd);border-radius:14px;box-shadow:var(--sh-lg);padding:8px;min-width:190px;flex-direction:column;gap:4px}
+.fab-menu.open{display:flex}
+.fab-menu a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--tx);text-decoration:none;font-size:14px;font-weight:600}
+.fab-menu a:hover{background:var(--pri-l);color:var(--pri)}
+
+/* Faster Attendance UI */
 .att-list{display:flex;flex-direction:column;gap:8px;margin:12px 0}
-.att-row{display:flex;align-items:center;justify-content:space-between;min-height:56px;padding:12px 16px;background:var(--card);border:1.5px solid var(--bd);border-radius:12px;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s;-webkit-tap-highlight-color:transparent}
-.att-row:hover{border-color:var(--pri)}
-.att-row.checked{background:var(--pri-l);border-color:var(--pri)}
-.att-row input{display:none}
-.att-row .att-name{font-weight:600;font-size:15px;color:var(--tx)}
-.att-row .att-check{width:28px;height:28px;border-radius:8px;border:2px solid var(--bd);display:grid;place-items:center;color:transparent;background:var(--card);flex:none;transition:all .15s}
-.att-row.checked .att-check{background:var(--pri);border-color:var(--pri);color:#fff}
+.att-card{display:flex;align-items:center;justify-content:space-between;min-height:58px;padding:12px 16px;background:var(--card);border:1.5px solid var(--bd);border-radius:12px;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s;-webkit-tap-highlight-color:transparent}
+.att-card:hover{border-color:var(--pri)}
+.att-card.checked{background:var(--pri-l);border-color:var(--pri)}
+.att-card input{display:none}
+.att-name{font-weight:600;font-size:15px;color:var(--tx)}
 .att-meta{display:flex;align-items:center;gap:6px;margin-top:3px}
+.att-status-pill{font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;display:inline-flex;align-items:center;gap:4px}
+.att-card.checked .att-status-pill{background:var(--lob);color:var(--lo);border:1px solid var(--lob-bd)}
+.att-card:not(.checked) .att-status-pill{background:var(--dropb);color:var(--drop);border:1px solid var(--dropb-bd)}
+
+/* Step-by-Step Forms */
+.wizard-steps{display:flex;align-items:center;justify-content:space-between;margin:0 0 16px;padding:0 4px}
+.step-item{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--mut)}
+.step-item.active{color:var(--pri)}
+.step-dot{width:24px;height:24px;border-radius:12px;background:var(--bd);color:var(--tx);display:grid;place-items:center;font-size:12px;font-weight:700}
+.step-item.active .step-dot{background:var(--pri);color:#fff}
+.step-pane{display:none}
+.step-pane.active{display:block}
+.wizard-actions{display:flex;justify-content:space-between;align-items:center;margin-top:16px;gap:8px;border-top:1px solid var(--bd);padding-top:12px}
+
+/* Action Cards on Today screen */
+.action-card{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;min-height:100px;padding:16px;background:var(--card);border:1.5px solid var(--bd);border-radius:14px;box-shadow:var(--sh);text-decoration:none;color:var(--tx);transition:transform .15s,border-color .15s,box-shadow .15s}
+.action-card:hover{border-color:var(--pri);box-shadow:var(--sh-lg);transform:translateY(-2px)}
+.action-card .ic{width:26px;height:26px;color:var(--pri);margin-bottom:8px}
+.action-card b{font-size:15px;color:var(--nv);display:block;margin-bottom:2px}
+.action-card span{font-size:12px;color:var(--mut)}
 
 /* Progress bar & dots */
 .bar{height:8px;background:var(--bd);border-radius:9px;overflow:hidden;margin:6px 0 10px}.bar i{display:block;height:100%;background:var(--pri);border-radius:9px}
@@ -222,23 +256,235 @@ label{font-size:13px;font-weight:500;color:var(--mut);display:block;margin-top:6
 .toast.s{opacity:1;transform:translateX(-50%) translateY(-4px)}
 details summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px;padding:4px 0}
 </style></head><body>
+
 <header id="top">
-  <button onclick="document.body.classList.toggle('menu')" aria-label="Open navigation menu" class="btn g sm" id="menuBtn"></button>
+  <button onclick="document.body.classList.toggle('menu')" aria-label="Open menu" class="btn g sm" id="menuBtn"></button>
   <b>Sarthi</b>
   <span class="mut" style="font-size:13px">Magic Bus · Mankhurd</span>
+  <div class="lang-switch" role="group" aria-label="Interface Language">
+    <button class="on" id="btn-en" onclick="setLang('en')">EN</button>
+    <button id="btn-hi" onclick="setLang('hi')">हिन्दी</button>
+    <button id="btn-mr" onclick="setLang('mr')">मराठी</button>
+  </div>
 </header>
+
 <aside id="sb" aria-label="Sidebar navigation"></aside>
 <nav id="bn" aria-label="Bottom navigation"></nav>
 <main id="app"></main>
+
+<!-- Floating Action Button for Phones -->
+<div id="fab">
+  <div class="fab-menu" id="fabMenu">
+    <a href="#field" onclick="closeFab()"><svg class="ic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> <span id="fabVoice">Voice Log</span></a>
+    <a href="#feedback" onclick="closeFab()"><svg class="ic" viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg> <span id="fabFeedback">Add Feedback</span></a>
+    <a href="#attendance" onclick="closeFab()"><svg class="ic" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> <span id="fabAtt">Take Attendance</span></a>
+  </div>
+  <button class="fab-main" onclick="toggleFab()" aria-label="Quick actions menu">
+    <svg class="ic" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+  </button>
+</div>
+
 <div id="t" class="toast" role="status" aria-live="polite"></div>
 
 <script>
+/* ==============================================================
+   11. INTERFACE TRANSLATIONS OBJECT (EN, HI, MR)
+   ============================================================== */
+let lang = localStorage.getItem('sarthi_lang') || 'en';
+
+const T_UI = {
+  en: {
+    todayTitle: "Today’s Field Plan",
+    todaySub: "Mankhurd Centre · Mobilizer daily briefing and quick actions",
+    actAttendance: "Take attendance",
+    actAttendanceSub: "Mark presence for community session",
+    actVoice: "Log a visit by voice",
+    actVoiceSub: "Speak field report & registrations",
+    actFollowup: "Follow-ups due",
+    actFollowupSub: "Review at-risk children and watchlists",
+    actMessage: "Message a guardian",
+    actMessageSub: "Draft session reminders & greetings",
+    todaySessions: "Today’s Community Sessions",
+    topFollowups: "Top 3 Follow-ups Needed",
+    supervisorLink: "Open Supervisor Dashboard",
+    supervisorDesc: "Looking for team targets, coverage maps and trends?",
+    markAllPresent: "Mark all present",
+    clearAll: "Clear all",
+    present: "Present",
+    absent: "Absent",
+    saveSession: "Save attendance session",
+    runningCount: "{x} of {total} present",
+    attConfirmTitle: "Confirm Session Attendance",
+    attConfirmMsg: "Saving attendance for {comm} on {date}: {present} Present, {absent} Absent. Proceed?",
+    confirmAndSave: "Confirm and save",
+    cancel: "Cancel",
+    next: "Next step",
+    back: "Back",
+    step1Basic: "1. Essential details",
+    step2More: "2. Additional details",
+    step3Review: "3. Review & save",
+    enrolled: "Enrolled",
+    active: "Active",
+    atRisk: "At risk",
+    droppedOut: "Dropped out",
+    reEngaged: "Re-engaged",
+    highRisk: "High risk",
+    medRisk: "Medium risk",
+    lowRisk: "Low risk",
+    homeGroup: "Home",
+    peopleGroup: "People",
+    fieldGroup: "Field Work",
+    planGroup: "Plan",
+    reportsGroup: "Reports",
+    navToday: "Today",
+    navSupervisor: "Supervisor Dashboard",
+    navPeople: "Beneficiaries",
+    navRisk: "Risk Board",
+    navComm: "Communities",
+    navVoice: "Voice Log",
+    navFeedback: "Feedback",
+    navMap: "Field Map",
+    navPlanner: "Session Planner",
+    navComms: "AI Comms",
+    navReports: "Reports",
+    navKB: "Knowledge Base"
+  },
+  hi: {
+    todayTitle: "आज की कार्य-योजना",
+    todaySub: "मानखुर्द केंद्र · मोबिलाइज़र दैनिक ब्रीफिंग और त्वरित कार्य",
+    actAttendance: "उपस्थिति दर्ज करें",
+    actAttendanceSub: "सत्र में बच्चों की उपस्थिति मार्क करें",
+    actVoice: "बोलकर विज़िट दर्ज करें",
+    actVoiceSub: "फ़ील्ड रिपोर्ट और नए बच्चों का विवरण बोलें",
+    actFollowup: "फॉलो-अप बाकी हैं",
+    actFollowupSub: "जोखिम वाले बच्चों की सूची देखें",
+    actMessage: "अभिभावक को संदेश भेजें",
+    actMessageSub: "सत्र याद दिलाने और स्वागत संदेश तैयार करें",
+    todaySessions: "आज के सामुदायिक सत्र",
+    topFollowups: "शीर्ष 3 जरूरी फॉलो-अप",
+    supervisorLink: "सुपरवाइज़र डैशबोर्ड खोलें",
+    supervisorDesc: "टीम लक्ष्य, कवरेज और रुझान देखना चाहते हैं?",
+    markAllPresent: "सभी उपस्थित करें",
+    clearAll: "सभी हटाएं",
+    present: "उपस्थित",
+    absent: "अनुपस्थित",
+    saveSession: "उपस्थिति सत्र सुरक्षित करें",
+    runningCount: "{total} में से {x} उपस्थित",
+    attConfirmTitle: "उपस्थिति की पुष्टि करें",
+    attConfirmMsg: "{comm} में {date} को: {present} उपस्थित, {absent} अनुपस्थित। क्या सुरक्षित करें?",
+    confirmAndSave: "पुष्टि करें और सुरक्षित करें",
+    cancel: "रद्द करें",
+    next: "अगला चरण",
+    back: "पीछे",
+    step1Basic: "1. प्राथमिक जानकारी",
+    step2More: "2. अतिरिक्त जानकारी",
+    step3Review: "3. समीक्षा और पुष्टि",
+    enrolled: "नामांकित",
+    active: "सक्रिय",
+    atRisk: "जोखिम में",
+    droppedOut: "छोड़ दिया",
+    reEngaged: "पुनः जुड़े",
+    highRisk: "उच्च जोखिम",
+    medRisk: "मध्यम जोखिम",
+    lowRisk: "कम जोखिम",
+    homeGroup: "होम",
+    peopleGroup: "समुदाय एवं बच्चे",
+    fieldGroup: "फ़ील्ड कार्य",
+    planGroup: "योजना",
+    reportsGroup: "रिपोर्ट्स",
+    navToday: "आज",
+    navSupervisor: "सुपरवाइज़र डैशबोर्ड",
+    navPeople: "लाभार्थी",
+    navRisk: "जोखिम बोर्ड",
+    navComm: "बस्तियाँ",
+    navVoice: "वॉइस लॉग",
+    navFeedback: "फ़ीडबैक",
+    navMap: "फ़ील्ड मैप",
+    navPlanner: "सत्र योजना",
+    navComms: "एआई संदेश",
+    navReports: "रिपोर्ट्स",
+    navKB: "नॉलेज बेस"
+  },
+  mr: {
+    todayTitle: "आजचे नियोजन",
+    todaySub: "मानखुर्द केंद्र · मोबिलायझर दैनिक आढावा आणि कृती",
+    actAttendance: "हजेरी नोंदवा",
+    actAttendanceSub: "सत्रातील मुलांची हजेरी चिन्हांकित करा",
+    actVoice: "बोलून नोंद करा",
+    actVoiceSub: "भेट अहवाल व नवीन नावनोंदणी बोला",
+    actFollowup: "फॉलो-अप बाकी",
+    actFollowupSub: "लक्ष देण्याजोग्या मुलांची यादी तपासा",
+    actMessage: "पालकांना संदेश पाठवा",
+    actMessageSub: "सत्र आठवण व स्वागत संदेश तयार करा",
+    todaySessions: "आजची नियोजित सत्रे",
+    topFollowups: "प्राधान्य असलेले ३ फॉलो-अप",
+    supervisorLink: "पर्यवेक्षक डॅशबोर्ड उघडा",
+    supervisorDesc: "सांघिक उद्दिष्टे, नकाशे व कल पाहण्यासाठी:",
+    markAllPresent: "सर्व उपस्थित करा",
+    clearAll: "सर्व हटवा",
+    present: "हजर",
+    absent: "गैरहजर",
+    saveSession: "हजेरी सत्र सेव्ह करा",
+    runningCount: "{total} पैकी {x} उपस्थित",
+    attConfirmTitle: "हजेरीची खात्री करा",
+    attConfirmMsg: "{comm} मध्ये {date} रोजी: {present} हजर, {absent} गैरहजर. सेव्ह करायचे का?",
+    confirmAndSave: "खात्री करून सेव्ह करा",
+    cancel: "रद्द करा",
+    next: "पुढील पायरी",
+    back: "मागे",
+    step1Basic: "१. प्राथमिक तपशील",
+    step2More: "२. अतिरिक्त तपशील",
+    step3Review: "३. तपासणी व सेव्ह",
+    enrolled: "नोंदणीकृत",
+    active: "सक्रिय",
+    atRisk: "धोक्यात",
+    droppedOut: "सोडलेले",
+    reEngaged: "पुन्हा जोडलेले",
+    highRisk: "उच्च धोका",
+    medRisk: "मध्यम धोका",
+    lowRisk: "कमी धोका",
+    homeGroup: "मुख्य",
+    peopleGroup: "मुलं व वस्ती",
+    fieldGroup: "क्षेत्र कार्य",
+    planGroup: "नियोजन",
+    reportsGroup: "अहवाल",
+    navToday: "आज",
+    navSupervisor: "पर्यवेक्षक डॅशबोर्ड",
+    navPeople: "लाभार्थी",
+    navRisk: "जोखीम फलक",
+    navComm: "वस्त्या",
+    navVoice: "व्हॉइस लॉग",
+    navFeedback: "अभिप्राय",
+    navMap: "क्षेत्र नकाशा",
+    navPlanner: "सत्र नियोजक",
+    navComms: "एआय संदेश",
+    navReports: "अहवाल",
+    navKB: "माहिती भांडार"
+  }
+};
+
+const tr = (k, vars={}) => {
+  let s = (T_UI[lang] && T_UI[lang][k]) || T_UI.en[k] || k;
+  Object.keys(vars).forEach(v => { s = s.replace(new RegExp('\\{'+v+'\\}', 'g'), vars[v]); });
+  return s;
+};
+
+function setLang(l){
+  lang = l;
+  localStorage.setItem('sarthi_lang', l);
+  document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('on'));
+  const btn = $('#btn-' + l);
+  if(btn) btn.classList.add('on');
+  go();
+}
+
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 /* Real inline SVG icon library */
 const I={
   bus:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="3"/><circle cx="7.5" cy="19.5" r="1.5"/><circle cx="16.5" cy="19.5" r="1.5"/><path d="M3 10h18M7 4v3M17 4v3M7 15h2M15 15h2"/></svg>`,
   home:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+  dashboard:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>`,
   users:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
   community:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M8 10h.01M16 10h.01M12 10h.01M8 14h.01M16 14h.01M12 14h.01"/></svg>`,
   checkCircle:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
@@ -255,7 +501,6 @@ const I={
   copy:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`,
   plus:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
   arrowRight:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`,
-  chevronDown:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>`,
   userMinus:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="23" y1="11" x2="17" y2="11"/></svg>`,
   userCheck:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>`,
   refresh:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>`,
@@ -266,20 +511,19 @@ const I={
   collapse:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="11 17 6 12 11 7"/><polyline points="18 17 13 12 18 7"/></svg>`
 };
 
-/* Status & Risk badge helper: Color + Icon + Word */
 function riskBadge(level){
   const icon = level === 'High' ? I.alertTriangle : level === 'Medium' ? I.shieldAlert : I.checkCircle;
-  return `<span class="badge ${level}" role="status">${icon} ${level} risk</span>`;
+  const label = level === 'High' ? tr('highRisk') : level === 'Medium' ? tr('medRisk') : tr('lowRisk');
+  return `<span class="badge ${level}" role="status">${icon} ${label}</span>`;
 }
 function statusBadge(status){
-  let icon = I.checkCircle, cls = 'Active';
-  if(status === 'Dropped out'){ icon = I.userMinus; cls = 'Dropped'; }
-  else if(status === 'At risk'){ icon = I.alertTriangle; cls = 'High'; }
-  else if(status === 'Re-engaged'){ icon = I.refresh; cls = 'ReEngaged'; }
-  return `<span class="badge ${cls}" role="status">${icon} ${status}</span>`;
+  let icon = I.checkCircle, cls = 'Active', label = tr('active');
+  if(status === 'Dropped out'){ icon = I.userMinus; cls = 'Dropped'; label = tr('droppedOut'); }
+  else if(status === 'At risk'){ icon = I.alertTriangle; cls = 'High'; label = tr('atRisk'); }
+  else if(status === 'Re-engaged'){ icon = I.refresh; cls = 'ReEngaged'; label = tr('reEngaged'); }
+  return `<span class="badge ${cls}" role="status">${icon} ${label}</span>`;
 }
 
-/* Double-tap prevention helper */
 function btnLock(btn, timeout=1200){
   if(!btn||btn.disabled)return false;
   btn.disabled=true;
@@ -287,6 +531,10 @@ function btnLock(btn, timeout=1200){
   setTimeout(()=>{btn.disabled=false;btn.classList.remove('loading')},timeout);
   return true;
 }
+
+/* FAB quick menu */
+function toggleFab(){ $('#fabMenu').classList.toggle('open'); }
+function closeFab(){ $('#fabMenu').classList.remove('open'); }
 
 const C={m:{n:'Mandala',age:'13–17',int:['cricket','dance'],iss:'Evening safety, exam pressure'},b:{n:'Baiganwadi',age:'12–16',int:['music','studies'],iss:'Session timing clashes'},l:{n:'Lallubhai Compound',age:'14–18',int:['careers','cricket'],iss:'Transport cost, early work'},s:{n:'Shivaji Nagar',age:'12–15',int:['dance','quiz'],iss:'Low parent awareness'}};
 const B=[
@@ -342,11 +590,106 @@ const dots=b=>`<span aria-label="attendance ${pct(b)} percent" style="display:in
 function toast(m){const t=$('#t');t.innerHTML=`${I.checkCircle} <span>${esc(m)}</span>`;t.classList.add('s');clearTimeout(tm);tm=setTimeout(()=>t.classList.remove('s'),2600)}
 async function cp(t){try{await navigator.clipboard.writeText(t);toast('Copied to clipboard')}catch(e){toast('Please select text and copy manually')}}
 const cavg=k=>{const x=B.filter(b=>b.c==k);return x.length?Math.round(sum(x.map(pct))/x.length):0};
-function addC(){const btn=$('#addCBtn');if(!btnLock(btn))return;const n=$('#cn').value.trim();if(!n)return toast('Enter a community name');if(Object.values(C).some(c=>c.n.toLowerCase()==n.toLowerCase()))return toast('That community already exists');const k='c'+Date.now().toString(36),d={k,n,age:$('#ca').value.trim()||'—',int:$('#ci').value.split(',').map(z=>z.trim().toLowerCase()).filter(Boolean),iss:$('#cs').value.trim()||'Not recorded yet'};C[k]={n:d.n,age:d.age,int:d.int,iss:d.iss};if(live)DB.doc('communities/'+k).set(d).catch(er);toast(live?'Community added':'Added locally (demo mode)');go()}
 const themes=c=>{const o={};F.filter(f=>f.c==c&&f.o!='Interested').forEach(f=>o[f.t]=(o[f.t]||0)+1);return o};
 const opts=(arr,sel)=>arr.map(a=>`<option value="${a[0]}" ${String(a[0])==String(sel)?'selected':''}>${esc(a[1])}</option>`).join('');
 const copts=sel=>opts(Object.keys(C).map(k=>[k,C[k].n]),sel);
 
+/* ==============================================================
+   6. "TODAY" HOME SCREEN FOR MOBILIZERS (SHOWN FIRST)
+   ============================================================== */
+function todayView(){
+  const up=SS.filter(s=>s.w>=Date.now()-DAY).sort((x,y)=>x.w-y.w).slice(0,3);
+  const q=B.filter(b=>!b.d&&risk(b).level!='Low').sort((x,y)=>risk(y).s-risk(x).s).slice(0,3);
+  const dateStr=new Date().toLocaleDateString(lang==='hi'?'hi-IN':lang==='mr'?'mr-IN':'en-IN',{weekday:'long',day:'numeric',month:'short'});
+
+  return `
+  <h1>${tr('todayTitle')}</h1>
+  <p class="mut" style="margin-bottom:16px">${dateStr} · ${tr('todaySub')}</p>
+
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:20px">
+    <a href="#attendance" class="action-card">
+      ${I.checkCircle}
+      <div>
+        <b>${tr('actAttendance')}</b>
+        <span>${tr('actAttendanceSub')}</span>
+      </div>
+    </a>
+    <a href="#field" class="action-card">
+      ${I.mic}
+      <div>
+        <b>${tr('actVoice')}</b>
+        <span>${tr('actVoiceSub')}</span>
+      </div>
+    </a>
+    <a href="#risk" class="action-card">
+      ${I.alertTriangle}
+      <div>
+        <b>${tr('actFollowup')}</b>
+        <span>${tr('actFollowupSub')}</span>
+      </div>
+    </a>
+    <a href="#messages" class="action-card">
+      ${I.chat}
+      <div>
+        <b>${tr('actMessage')}</b>
+        <span>${tr('actMessageSub')}</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="card">
+    <h2>${tr('todaySessions')}</h2>
+    ${up.length?up.map(s=>`
+      <div class="q">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="color:var(--pri)">${I.calendar}</span>
+          <div><b>${esc(s.f)}</b><br><span class="mut">${C[s.c]?C[s.c].n:''}</span></div>
+        </div>
+        <span class="mut" style="font-weight:600">${new Date(s.w).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}</span>
+      </div>
+    `).join(''):`
+      <div class="empty-state">
+        ${I.calendar}
+        <h3>No sessions scheduled for today</h3>
+        <p class="mut">Check the session planner or schedule a new community workshop.</p>
+        <button onclick="location.hash='planner'">${I.plus} Schedule session</button>
+      </div>
+    `}
+  </div>
+
+  <div class="card">
+    <h2>${tr('topFollowups')}</h2>
+    ${q.length?q.map(b=>{
+      const r=risk(b);
+      return `
+      <div class="q ${r.level==='High'?'high-risk-highlight':''}" style="padding:10px;border-radius:10px">
+        <div>
+          <b>${esc(b.n)}</b> ${riskBadge(r.level)}<br>
+          <span class="mut">${C[b.c]?C[b.c].n:''} · ${r.r[0]||'Attendance flag'}</span>
+        </div>
+        <button class="btn g sm" onclick="selB=${b.id};location.hash='messages'">${I.chat} Message</button>
+      </div>`;
+    }).join(''):`
+      <div class="empty-state">
+        ${I.checkCircle}
+        <h3>All clear today</h3>
+        <p class="mut">No urgent follow-up visits needed.</p>
+      </div>
+    `}
+  </div>
+
+  <div class="card" style="background:var(--pri-l);border-color:var(--pri)">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+      <div>
+        <b style="color:var(--nv);font-size:15px">${I.dashboard} ${tr('supervisorLink')}</b>
+        <p class="mut" style="margin:2px 0 0">${tr('supervisorDesc')}</p>
+      </div>
+      <a href="#dashboard" class="btn sm">${tr('supervisorLink')} ${I.arrowRight}</a>
+    </div>
+  </div>`;
+}
+
+/* Current dashboard preserved as "Supervisor View" */
 function dash(){
   const vn=LOG.filter(v=>v.ts>Date.now()-PD[tp]*DAY).length,
         nw=B.filter(b=>b.en>Date.now()-30*DAY).length,
@@ -361,13 +704,13 @@ function dash(){
   const sm=`${B.length} beneficiaries across ${cs.length} communities: ${a} active, ${ar} at risk, ${dr} dropped out. Top follow-ups: ${q.slice(0,3).map(b=>b.n).join(', ')||'None'}. Lowest participation: ${lowComm}.`;
   lastSm=sm;
 
-  return `<h1>Mankhurd Mobilization</h1>
+  return `<h1>${tr('navSupervisor')}</h1>
   <p class="mut" style="display:flex;align-items:center;gap:6px">${live?`<span class="badge Low">${I.checkCircle} Live database</span> Shared with team.`:`<span class="badge Medium">${I.shieldAlert} Demo mode</span> Local storage only.`}</p>
   <div class="grid">
-    <div class="card"><b>${B.length}</b><span class="mut">${I.users} Enrolled</span></div>
-    <div class="card"><b>${a}</b><span class="mut">${I.userCheck} Active</span></div>
-    <div class="card"><b>${ar}</b><span class="mut">${I.alertTriangle} At risk</span></div>
-    <div class="card"><b>${dr}</b><span class="mut">${I.userMinus} Dropped out</span></div>
+    <div class="card"><b>${B.length}</b><span class="mut">${I.users} ${tr('enrolled')}</span></div>
+    <div class="card"><b>${a}</b><span class="mut">${I.userCheck} ${tr('active')}</span></div>
+    <div class="card"><b>${ar}</b><span class="mut">${I.alertTriangle} ${tr('atRisk')}</span></div>
+    <div class="card"><b>${dr}</b><span class="mut">${I.userMinus} ${tr('droppedOut')}</span></div>
   </div>
 
   <div class="card">
@@ -383,7 +726,7 @@ function dash(){
 
   <div class="card">
     <h2>Registrations and attendance</h2>
-    <p>${nw} youth enrolled in the last 30 days · attendance <b>${t2[1]}%</b> in the latest 4 sessions vs <b>${t2[0]}%</b> earlier</p>
+    <p>${nw} youth enrolled in the last 30 days · attendance <b>${t2[1]}%</b> in latest 4 sessions vs <b>${t2[0]}%</b> earlier</p>
   </div>
 
   <div class="card">
@@ -399,60 +742,91 @@ function dash(){
     `).join(''):`
       <div class="empty-state">
         ${I.calendar}
-        <h3>No sessions scheduled yet</h3>
-        <p class="mut">Plan an upcoming sports or life-skills session.</p>
+        <h3>No sessions scheduled</h3>
+        <p class="mut">Plan an upcoming mobilization session.</p>
         <button onclick="location.hash='planner'">${I.plus} Schedule session</button>
       </div>
     `}
   </div>
 
   <div class="card">
-    <h2>Summary</h2>
+    <h2>Team performance</h2>
+    ${mperf()}
+  </div>
+
+  <div class="card">
+    <h2>Executive summary</h2>
     <p>${esc(sm)}</p>
     <div style="margin-top:10px">
       <button class="g" onclick="cp(lastSm)">${I.copy} Copy summary</button>
       <a href="#reports" class="btn g" style="margin-left:4px">${I.reports} Open full reports ${I.arrowRight}</a>
     </div>
-  </div>
-
-  <div class="card">
-    <h2>Follow-up queue (highest risk first)</h2>
-    ${q.length?q.map(b=>{
-      const r=risk(b);
-      const isHigh=r.level==='High';
-      return `
-      <div class="q ${isHigh?'high-risk-highlight':''}" style="padding:12px 8px;border-radius:10px">
-        <div>
-          <b>${esc(b.n)}</b> ${riskBadge(r.level)}<br>
-          <span class="mut">${C[b.c]?C[b.c].n:''} · ${r.r.join('; ')}</span>
-        </div>
-        <button class="btn g sm" onclick="selB=${b.id};location.hash='messages'">${I.chat} Message</button>
-      </div>`;
-    }).join(''):`
-      <div class="empty-state">
-        ${I.checkCircle}
-        <h3>All clear</h3>
-        <p class="mut">No high or medium risk beneficiaries need follow-up today.</p>
-      </div>
-    `}
-  </div>
-
-  <div class="card">
-    <h2>Community participation</h2>
-    ${Object.keys(C).map(k=>`
-      <div style="margin-bottom:12px">
-        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
-          <b>${C[k].n}</b>
-          <span class="mut">${cavg(k)}% avg attendance</span>
-        </div>
-        <div class="bar"><i style="width:${cavg(k)}%"></i></div>
-      </div>
-    `).join('')}
   </div>`;
 }
 
+/* ==============================================================
+   10. STEP-BY-STEP FORMS (ADD BENEFICIARY, FEEDBACK, COMMUNITY)
+   ============================================================== */
+let formStep = { p: 1, fb: 1, c: 1 };
+
+function setStep(form, s){
+  formStep[form] = s;
+  document.querySelectorAll('.' + form + '-pane').forEach(p => p.classList.remove('active'));
+  const target = $('#' + form + '-step-' + s);
+  if(target) target.classList.add('active');
+  document.querySelectorAll('.' + form + '-step-item').forEach((it, idx) => {
+    it.classList.toggle('active', (idx + 1) === s);
+  });
+  if(form === 'p' && s === 3) updatePersonSummary();
+  if(form === 'fb' && s === 3) updateFeedbackSummary();
+  if(form === 'c' && s === 3) updateCommunitySummary();
+}
+
+function updatePersonSummary(){
+  const el = $('#p-summary');if(!el)return;
+  const n = ($('#an')?$('#an').value:'').trim(),
+        c = $('#ac')?$('#ac').value:'m',
+        p = $('#ap')?$('#ap').value:'Life Skills',
+        g = ($('#ag')?$('#ag').value:'').trim()||'Guardian',
+        ph = ($('#ap2')?$('#ap2').value:'').trim()||'None',
+        rf = ($('#ar')?$('#ar').value:'').trim()||'Walk-in';
+  el.innerHTML = `
+    <p><b>Name:</b> ${esc(n||'(missing)')}</p>
+    <p><b>Community:</b> ${C[c]?C[c].n:c} · <b>Track:</b> ${p}</p>
+    <p><b>Guardian:</b> ${esc(g)} · <b>Phone:</b> ${esc(ph)}</p>
+    <p><b>Referral:</b> ${esc(rf)}</p>`;
+}
+
+function updateFeedbackSummary(){
+  const el = $('#fb-summary');if(!el)return;
+  const c = $('#fc2')?$('#fc2').value:'m',
+        o = $('#fo')?$('#fo').value:'Interested',
+        t = $('#ft')?$('#ft').value:'Safety',
+        bId = $('#fb2')?$('#fb2').value:'-1',
+        fn = ($('#fn')?$('#fn').value:'').trim();
+  const bObj = bId >= 0 ? (B.find(x=>x.id==bId)||B[bId]) : null;
+  el.innerHTML = `
+    <p><b>Pocket:</b> ${C[c]?C[c].n:c} · <b>Outcome:</b> ${o} · <b>Theme:</b> ${t}</p>
+    ${bObj?`<p><b>Linked Beneficiary:</b> ${esc(bObj.n)}</p>`:''}
+    <p><b>Notes:</b> ${esc(fn||'No notes entered')}</p>`;
+}
+
+function updateCommunitySummary(){
+  const el = $('#c-summary');if(!el)return;
+  const n = ($('#cn')?$('#cn').value:'').trim(),
+        ca = ($('#ca')?$('#ca').value:'').trim()||'—',
+        ci = ($('#ci')?$('#ci').value:'').trim()||'—',
+        cs = ($('#cs')?$('#cs').value:'').trim()||'—';
+  el.innerHTML = `
+    <p><b>Community Name:</b> ${esc(n||'(missing)')}</p>
+    <p><b>Target Age:</b> ${esc(ca)}</p>
+    <p><b>Interests:</b> ${esc(ci)}</p>
+    <p><b>Challenges:</b> ${esc(cs)}</p>`;
+}
+
 function people(){
-  return `<h1>Beneficiaries</h1>
+  formStep.p = 1;
+  return `<h1>${tr('navPeople')}</h1>
   <div class="card">
     <input id="q" placeholder="Search by child name" oninput="lst()" aria-label="Search beneficiaries">
     <div class="row">
@@ -471,22 +845,60 @@ function people(){
   </div>
 
   <details class="card">
-    <summary><b>${I.plus} Add new beneficiary</b></summary>
-    <div style="margin-top:10px">
-      <input id="an" placeholder="Child name *">
-      <input id="ag" placeholder="Guardian name">
-      <div class="row">
-        <input id="ap2" placeholder="Guardian phone" inputmode="tel">
-        <input id="ar" placeholder="Referral source (person, school, walk-in)">
+    <summary><b>${I.plus} Add new beneficiary (Guided steps)</b></summary>
+    <div style="margin-top:14px">
+      <div class="wizard-steps" role="navigation" aria-label="Form progress">
+        <div class="step-item p-step-item active"><span class="step-dot">1</span> <span>${tr('step1Basic')}</span></div>
+        <div class="step-item p-step-item"><span class="step-dot">2</span> <span>${tr('step2More')}</span></div>
+        <div class="step-item p-step-item"><span class="step-dot">3</span> <span>${tr('step3Review')}</span></div>
       </div>
-      <div class="row">
-        <select id="ac">${copts()}</select>
-        <select id="ap"><option>Life Skills</option><option>Livelihood</option></select>
-        <select id="al"><option value="hi">हिन्दी (Hindi)</option><option value="mr">मराठी (Marathi)</option><option value="en">English</option></select>
+
+      <!-- Step 1 -->
+      <div class="step-pane p-pane active" id="p-step-1">
+        <label>Child full name *</label>
+        <input id="an" placeholder="e.g. Priya Kumari">
+        <div class="row">
+          <div><label>Community pocket *</label><select id="ac">${copts()}</select></div>
+          <div><label>Program track *</label><select id="ap"><option>Life Skills</option><option>Livelihood</option></select></div>
+        </div>
+        <div class="wizard-actions">
+          <span></span>
+          <button type="button" onclick="const n=$('#an').value.trim();if(!n)return toast('Please enter a child name');setStep('p',2)">${tr('next')} ${I.arrowRight}</button>
+        </div>
       </div>
-      <button onclick="addP()" id="addPBtn">${I.plus} Add beneficiary</button>
+
+      <!-- Step 2 -->
+      <div class="step-pane p-pane" id="p-step-2">
+        <label>Guardian name</label>
+        <input id="ag" placeholder="Guardian name">
+        <div class="row">
+          <div><label>Guardian phone number</label><input id="ap2" placeholder="10-digit mobile" inputmode="tel"></div>
+          <div><label>Referral source</label><input id="ar" placeholder="e.g. Teacher, friend, walk-in"></div>
+        </div>
+        <label>Preferred outreach language</label>
+        <select id="al">
+          <option value="hi">हिन्दी (Hindi)</option>
+          <option value="mr">मराठी (Marathi)</option>
+          <option value="en">English</option>
+        </select>
+        <div class="wizard-actions">
+          <button type="button" class="g" onclick="setStep('p',1)">${I.arrowRight} ${tr('back')}</button>
+          <button type="button" onclick="setStep('p',3)">${tr('next')} ${I.arrowRight}</button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step-pane p-pane" id="p-step-3">
+        <h3>Review enrollment details</h3>
+        <div id="p-summary" class="card" style="background:var(--bg)"></div>
+        <div class="wizard-actions">
+          <button type="button" class="g" onclick="setStep('p',2)">${I.arrowRight} ${tr('back')}</button>
+          <button type="button" onclick="addP()" id="addPBtn">${I.checkCircle} ${tr('confirmAndSave')}</button>
+        </div>
+      </div>
     </div>
   </details>
+
   <div id="list"></div>`;
 }
 
@@ -550,39 +962,52 @@ function lst(){
   }).join('');
 }
 
+/* ==============================================================
+   8. FASTER ATTENDANCE (RUNNING COUNT, TOGGLES, CONFIRMATION)
+   ============================================================== */
 function att(){
   const x=B.filter(b=>b.c==attC&&!b.d);
-  return `<h1>Attendance</h1>
-  <p class="mut">Tick who attended the session today. Tap any card row to mark attendance quickly.</p>
+  const presentCount = x.length;
+
+  return `<h1>${tr('actAttendance')}</h1>
+  <p class="mut">Tap any card row to mark presence quickly with one hand.</p>
   <div class="card">
     <div class="row">
-      <select onchange="attC=this.value;go()" aria-label="Select community">
-        ${copts(attC)}
-      </select>
-      <input type="date" id="ad" value="${new Date().toISOString().slice(0,10)}" aria-label="Session date">
+      <div>
+        <label>Community pocket</label>
+        <select onchange="attC=this.value;go()" aria-label="Select community">
+          ${copts(attC)}
+        </select>
+      </div>
+      <div>
+        <label>Session date</label>
+        <input type="date" id="ad" value="${new Date().toISOString().slice(0,10)}" aria-label="Session date">
+      </div>
     </div>
 
     ${x.length?`
-      <div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0 6px">
-        <span class="mut" style="font-weight:600">${x.length} Active in ${C[attC]?C[attC].n:''}</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:14px 0 8px;flex-wrap:wrap;gap:8px">
+        <span id="runningCount" class="badge Low" style="font-size:13px;padding:6px 12px">
+          ${tr('runningCount', {x: presentCount, total: x.length})}
+        </span>
         <div>
-          <button class="btn g sm" onclick="document.querySelectorAll('.ck').forEach(c=>{c.checked=true;c.closest('.att-row').classList.add('checked')})">All present</button>
-          <button class="btn g sm" onclick="document.querySelectorAll('.ck').forEach(c=>{c.checked=false;c.closest('.att-row').classList.remove('checked')})">Clear all</button>
+          <button class="btn g sm" onclick="markAllAtt(true)">${tr('markAllPresent')}</button>
+          <button class="btn g sm" onclick="markAllAtt(false)">${tr('clearAll')}</button>
         </div>
       </div>
       <div class="att-list" role="group" aria-label="Beneficiary attendance list">
         ${x.map(b=>`
-          <label class="att-row checked" for="ck_${b.id}">
-            <input type="checkbox" id="ck_${b.id}" class="ck" value="${b.id}" checked onchange="this.closest('.att-row').classList.toggle('checked', this.checked)">
+          <label class="att-card checked" for="ck_${b.id}">
+            <input type="checkbox" id="ck_${b.id}" class="ck" value="${b.id}" checked onchange="toggleAttCard(this)">
             <div>
               <span class="att-name">${esc(b.n)}</span>
               <div class="att-meta">${dots(b)}</div>
             </div>
-            <div class="att-check">${I.check}</div>
+            <span class="att-status-pill">${I.check} ${tr('present')}</span>
           </label>
         `).join('')}
       </div>
-      <button onclick="saveAtt()" id="saveAttBtn" style="width:100%;min-height:48px;font-size:16px;margin-top:12px">${I.checkCircle} Save attendance session</button>
+      <button onclick="confirmSaveAtt()" id="saveAttBtn" style="width:100%;min-height:50px;font-size:16px;margin-top:14px">${I.checkCircle} ${tr('saveSession')}</button>
     `:`
       <div class="empty-state">
         ${I.users}
@@ -594,24 +1019,82 @@ function att(){
   </div>`;
 }
 
-function saveAtt(){
-  const btn=$('#saveAttBtn');if(!btnLock(btn))return;
-  const dateVal=$('#ad')?$('#ad').value:'';
-  const sd=dateVal?new Date(dateVal+'T12:00:00').getTime():Date.now();
-  const now=Date.now();
-  document.querySelectorAll('.ck').forEach(x=>{
-    const bId=+x.value,b=B.find(z=>z.id===bId)||B[bId];
-    if(!b)return;
-    const isPresent=x.checked?1:0;
-    b.hs=(b.hs||[]).concat({d:sd,v:isPresent}).sort((p,q)=>p.d-q.d).slice(-24);
-    b.a=b.hs.slice(-8).map(h=>h.v);
-    if(isPresent){
-      const sc=Math.min(sd,now);
-      b.lcd=Math.max(b.lcd||0,sc);
+function toggleAttCard(cb){
+  const card = cb.closest('.att-card');
+  card.classList.toggle('checked', cb.checked);
+  const pill = card.querySelector('.att-status-pill');
+  if(pill){
+    pill.innerHTML = cb.checked ? `${I.check} ${tr('present')}` : `${I.cross} ${tr('absent')}`;
+  }
+  updateAttCount();
+}
+
+function markAllAtt(checked){
+  document.querySelectorAll('.ck').forEach(c => {
+    c.checked = checked;
+    const card = c.closest('.att-card');
+    card.classList.toggle('checked', checked);
+    const pill = card.querySelector('.att-status-pill');
+    if(pill){
+      pill.innerHTML = checked ? `${I.check} ${tr('present')}` : `${I.cross} ${tr('absent')}`;
     }
-    sv('people/p'+b.id,{a:b.a,lcd:b.lcd,hs:b.hs});
   });
-  toast(live?'Saved to database. Risk flags updated.':'Saved locally (demo mode).');
+  updateAttCount();
+}
+
+function updateAttCount(){
+  const all = document.querySelectorAll('.ck');
+  const pres = document.querySelectorAll('.ck:checked').length;
+  const countEl = $('#runningCount');
+  if(countEl){
+    countEl.textContent = tr('runningCount', { x: pres, total: all.length });
+    countEl.className = 'badge ' + (pres >= all.length*0.7 ? 'Low' : pres >= all.length*0.4 ? 'Medium' : 'High');
+  }
+}
+
+function confirmSaveAtt(){
+  const all = document.querySelectorAll('.ck');
+  const pres = document.querySelectorAll('.ck:checked').length;
+  const abs = all.length - pres;
+  const dateVal = $('#ad') ? $('#ad').value : new Date().toISOString().slice(0,10);
+  const commName = C[attC] ? C[attC].n : attC;
+
+  cm();
+  const d = document.createElement('div');
+  d.id = 'md';
+  d.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,0.7);display:grid;place-items:center;z-index:20;padding:16px;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)';
+  d.innerHTML = `
+  <div class="card" style="max-width:440px;width:100%;box-shadow:var(--sh-lg);border-radius:16px">
+    <h3>${tr('attConfirmTitle')}</h3>
+    <p style="margin:12px 0 16px;line-height:1.6">
+      ${tr('attConfirmMsg', { comm: commName, date: dateVal, present: pres, absent: abs })}
+    </p>
+    <div style="display:flex;justify-content:flex-end;gap:8px">
+      <button class="g" onclick="cm()">${tr('cancel')}</button>
+      <button onclick="executeSaveAtt()">${I.checkCircle} ${tr('confirmAndSave')}</button>
+    </div>
+  </div>`;
+  document.body.appendChild(d);
+}
+
+function executeSaveAtt(){
+  cm();
+  const dateVal = $('#ad') ? $('#ad').value : '';
+  const sd = dateVal ? new Date(dateVal + 'T12:00:00').getTime() : Date.now();
+  const now = Date.now();
+  document.querySelectorAll('.ck').forEach(x => {
+    const bId = +x.value, b = B.find(z => z.id === bId) || B[bId];
+    if(!b) return;
+    const isPresent = x.checked ? 1 : 0;
+    b.hs = (b.hs || []).concat({ d: sd, v: isPresent }).sort((p, q) => p.d - q.d).slice(-24);
+    b.a = b.hs.slice(-8).map(h => h.v);
+    if(isPresent){
+      const sc = Math.min(sd, now);
+      b.lcd = Math.max(b.lcd || 0, sc);
+    }
+    sv('people/p' + b.id, { a: b.a, lcd: b.lcd, hs: b.hs });
+  });
+  toast(live ? 'Saved to database. Risk flags updated.' : 'Saved locally (demo mode).');
   go();
 }
 
@@ -625,7 +1108,7 @@ function plan(){
   }).filter(s=>s.sc>0).sort((a,b)=>b.sc-a.sc).slice(0,3);
   const upS=SS.filter(s=>s.c==pc&&s.w>=Date.now()-DAY).sort((a,b)=>a.w-b.w);
 
-  return `<h1>Session Planner</h1>
+  return `<h1>${tr('navPlanner')}</h1>
   <div class="card">
     <select onchange="pc=this.value;go()" aria-label="Select community pocket">${copts(pc)}</select>
     <p class="mut"><b>Age group:</b> ${C[pc].age} · <b>Interests:</b> ${C[pc].int.join(', ')} · <b>Issues:</b> ${C[pc].iss}</p>
@@ -723,11 +1206,11 @@ const SG={
 const UP={en:'Important: ',hi:'ज़रूरी: ',mr:'महत्त्वाचे: '};
 
 function msg(){
-  if(!B.length)return `<h1>AI Comms</h1><div class="empty-state">${I.users}<h3>No beneficiaries available</h3><p class="mut">Add beneficiaries to draft messages.</p></div>`;
+  if(!B.length)return `<h1>${tr('navComms')}</h1><div class="empty-state">${I.users}<h3>No beneficiaries available</h3><p class="mut">Add beneficiaries to draft messages.</p></div>`;
   const currB=B.find(x=>x.id===selB)||B[0];selB=currB.id;
   const o=[...B].sort((x,y)=>risk(y).s-risk(x).s).map(b=>[b.id,b.n+' ('+risk(b).level+' risk)']);
 
-  return `<h1>AI Comms</h1>
+  return `<h1>${tr('navComms')}</h1>
   <div class="card">
     <label class="mut">Recipient beneficiary</label>
     <select id="mb" onchange="const b=B.find(x=>x.id==this.value);if(b)$('#ml').value=b.lang;gen()">
@@ -795,7 +1278,7 @@ function gen(){
 }
 
 function field(){
-  return `<h1>Voice Log</h1>
+  return `<h1>${tr('navVoice')}</h1>
   <div class="card">
     <p class="mut">Speak or type your field visits. The system extracts names, communities, and visit outcomes.</p>
     <textarea id="f" placeholder="Example: Visited Deepak’s home in Mandala. Mother worried about evening timing. Registered new child Priya Kumari in Mandala."></textarea>
@@ -894,14 +1377,14 @@ function show(){
       <h2>Review extracted visits before saving</h2>
       <div class="att-list">
         ${EX.map((x,i)=>`
-          <label class="att-row checked" for="ek_${i}">
-            <input type="checkbox" id="ek_${i}" class="ek" value="${i}" checked onchange="this.closest('.att-row').classList.toggle('checked', this.checked)">
+          <label class="att-card checked" for="ek_${i}">
+            <input type="checkbox" id="ek_${i}" class="ek" value="${i}" checked onchange="this.closest('.att-card').classList.toggle('checked', this.checked)">
             <div>
               <span class="badge ${x.ty==='Registration'?'Low':x.ty==='Refusal'?'High':'Neutral'}">${x.ty}</span>
               <b>${esc(x.who)}</b> · <span class="mut">${esc(x.c)}</span>
               <p class="mut" style="margin:4px 0 0">${esc(x.s)}</p>
             </div>
-            <div class="att-check">${I.check}</div>
+            <span class="att-status-pill">${I.check} ${tr('confirmAndSave')}</span>
           </label>
         `).join('')}
       </div>
@@ -963,32 +1446,68 @@ function svx(){
   go();
 }
 
+/* Step-by-Step Guided Feedback */
 function fb(){
+  formStep.fb = 1;
   const cs=Object.keys(C);
-  return `<h1>Feedback</h1>
+  return `<h1>${tr('navFeedback')}</h1>
   <div class="card">
-    <h2>Log a visit outcome</h2>
-    <div class="row">
-      <select id="fc2">${copts()}</select>
-      <select id="fo"><option>Interested</option><option>Undecided</option><option>Refused</option></select>
-      <select id="ft">${TH.map(t=>`<option>${t}</option>`).join('')}</select>
+    <h2>Log a visit outcome (Guided steps)</h2>
+    <div class="wizard-steps" role="navigation" aria-label="Feedback progress">
+      <div class="step-item fb-step-item active"><span class="step-dot">1</span> <span>${tr('step1Basic')}</span></div>
+      <div class="step-item fb-step-item"><span class="step-dot">2</span> <span>${tr('step2More')}</span></div>
+      <div class="step-item fb-step-item"><span class="step-dot">3</span> <span>${tr('step3Review')}</span></div>
     </div>
-    <select id="fb2" onchange="const bi=+this.value;if(bi>=0){const b=B.find(x=>x.id===bi)||B[bi];if(b)$('#fc2').value=b.c;}">
-      <option value="-1">Beneficiary (optional)</option>
-      ${B.map(b=>`<option value="${b.id}">${esc(b.n)} (${C[b.c]?C[b.c].n:''})</option>`).join('')}
-    </select>
-    <input id="fw" placeholder="Household details (optional)">
-    <input id="fr" placeholder="Referred by / community champion (optional)">
-    <textarea id="fn" placeholder="What did they say? Concerns, timings, work shifts, safety…"></textarea>
-    <div class="row">
-      <select id="sl" aria-label="Language for voice note">
-        <option value="en-IN">English</option>
-        <option value="hi-IN">हिन्दी</option>
-        <option value="mr-IN">मराठी</option>
+
+    <!-- Step 1 -->
+    <div class="step-pane fb-pane active" id="fb-step-1">
+      <div class="row">
+        <div><label>Community pocket *</label><select id="fc2">${copts()}</select></div>
+        <div><label>Visit outcome *</label><select id="fo"><option>Interested</option><option>Undecided</option><option>Refused</option></select></div>
+        <div><label>Primary topic *</label><select id="ft">${TH.map(t=>`<option>${t}</option>`).join('')}</select></div>
+      </div>
+      <div class="wizard-actions">
+        <span></span>
+        <button type="button" onclick="setStep('fb',2)">${tr('next')} ${I.arrowRight}</button>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step-pane fb-pane" id="fb-step-2">
+      <label>Beneficiary (optional)</label>
+      <select id="fb2" onchange="const bi=+this.value;if(bi>=0){const b=B.find(x=>x.id===bi)||B[bi];if(b)$('#fc2').value=b.c;}">
+        <option value="-1">None (General household)</option>
+        ${B.map(b=>`<option value="${b.id}">${esc(b.n)} (${C[b.c]?C[b.c].n:''})</option>`).join('')}
       </select>
-      <button class="g" onclick="mic('fn')">${I.mic} Speak feedback</button>
+      <div class="row">
+        <div><label>Household details</label><input id="fw" placeholder="e.g. Lane 3, near school"></div>
+        <div><label>Referrer / champion</label><input id="fr" placeholder="e.g. Anjali Mishra"></div>
+      </div>
+      <label>Feedback notes</label>
+      <textarea id="fn" placeholder="Concerns, work timings, school exams, or questions raised…"></textarea>
+      <div class="row">
+        <select id="sl" aria-label="Spoken language">
+          <option value="en-IN">English</option>
+          <option value="hi-IN">हिन्दी</option>
+          <option value="mr-IN">मराठी</option>
+        </select>
+        <button type="button" class="g" onclick="mic('fn')">${I.mic} Speak feedback</button>
+      </div>
+      <div class="wizard-actions">
+        <button type="button" class="g" onclick="setStep('fb',1)">${I.arrowRight} ${tr('back')}</button>
+        <button type="button" onclick="setStep('fb',3)">${tr('next')} ${I.arrowRight}</button>
+      </div>
     </div>
-    <button onclick="svf()" id="svfBtn">${I.check} Save feedback</button>
+
+    <!-- Step 3 -->
+    <div class="step-pane fb-pane" id="fb-step-3">
+      <h3>Review visit feedback</h3>
+      <div id="fb-summary" class="card" style="background:var(--bg)"></div>
+      <div class="wizard-actions">
+        <button type="button" class="g" onclick="setStep('fb',2)">${I.arrowRight} ${tr('back')}</button>
+        <button type="button" onclick="svf()" id="svfBtn">${I.checkCircle} ${tr('confirmAndSave')}</button>
+      </div>
+    </div>
   </div>
 
   <div class="card">
@@ -1162,7 +1681,7 @@ function mperf(){
 
 function team(){
   const d=dups();
-  return `<h1>Field Map</h1>
+  return `<h1>${tr('navMap')}</h1>
   <p class="mut">Active beneficiaries visited in the last 14 days by community pocket.</p>
   <div class="card">
     ${mapSvg()}
@@ -1267,7 +1786,7 @@ const att2=()=>`
 </div>`;
 
 function rep(){
-  const tr=k=>{
+  const trk=k=>{
     const x=B.filter(b=>b.c==k&&(b.a||[]).length>=8),f=(s,e)=>x.length?Math.round(sum(x.map(b=>sum(b.a.slice(s,e))/(e-s)))/x.length*100):0;
     return[f(0,4),f(4,8)];
   },ch={};
@@ -1275,7 +1794,7 @@ function rep(){
   B.forEach(b=>{if(b.rf&&B.some(x=>x.n==b.rf))ch[b.rf]=(ch[b.rf]||0)+1});
   const bars=r=>`<div>${r[0]} <span class="mut" style="font-weight:600">${r[1]}%</span><div class="bar"><i style="width:${r[1]}%"></i></div></div>`;
 
-  return `<h1>Reports</h1>
+  return `<h1>${tr('navReports')}</h1>
   <div class="card">
     <h2>Summary for supervisor</h2>
     <div id="rs"><p class="mut">Generate an instant plain-language briefing on cohort numbers.</p></div>
@@ -1293,7 +1812,7 @@ function rep(){
   <div class="card">
     <h2>Community-wise breakdown</h2>
     ${Object.keys(C).map(k=>{
-      const t=tr(k),x=B.filter(b=>b.c==k);
+      const t=trk(k),x=B.filter(b=>b.c==k);
       return `
       <div style="padding:8px 0;border-bottom:1px solid var(--bd)">
         <b>${C[k].n}</b> · ${x.length} enrolled · ${x.filter(b=>b.d).length} dropped out<br>
@@ -1345,20 +1864,55 @@ async function aiRep(){
   }
 }
 
-const NAV=[['dashboard',I.home,'Home'],['team',I.map,'Map'],['planner',I.calendar,'Planner'],['field',I.mic,'Voice'],['people',I.users,'People']];
-const SB=[
-  ['dashboard','Dashboard',I.home],
-  ['people','Beneficiaries',I.users],
-  ['communities','Communities',I.community],
-  ['attendance','Attendance',I.checkCircle],
-  ['risk','Risk Board',I.alertTriangle],
-  ['messages','AI Comms',I.chat],
-  ['planner','Session Planner',I.calendar],
-  ['team','Field Map',I.map],
-  ['field','Voice Log',I.mic],
-  ['feedback','Feedback',I.feedback],
-  ['kb','Knowledge Base',I.book],
-  ['reports','Reports',I.reports]
+/* ==============================================================
+   7. SIMPLIFIED NAVIGATION: 5 SIDEBAR GROUPS & 5 BOTTOM BAR ITEMS
+   ============================================================== */
+const SB_GROUPS = [
+  {
+    title: 'homeGroup',
+    items: [
+      ['today', 'navToday', I.home],
+      ['dashboard', 'navSupervisor', I.dashboard]
+    ]
+  },
+  {
+    title: 'peopleGroup',
+    items: [
+      ['people', 'navPeople', I.users],
+      ['risk', 'navRisk', I.alertTriangle],
+      ['communities', 'navComm', I.community]
+    ]
+  },
+  {
+    title: 'fieldGroup',
+    items: [
+      ['field', 'navVoice', I.mic],
+      ['feedback', 'navFeedback', I.feedback],
+      ['team', 'navMap', I.map]
+    ]
+  },
+  {
+    title: 'planGroup',
+    items: [
+      ['planner', 'navPlanner', I.calendar],
+      ['messages', 'navComms', I.chat]
+    ]
+  },
+  {
+    title: 'reportsGroup',
+    items: [
+      ['reports', 'navReports', I.reports],
+      ['kb', 'navKB', I.book]
+    ]
+  }
+];
+
+const NAV_PHONE = [
+  ['today', I.home, 'navToday'],
+  ['people', I.users, 'navPeople'],
+  ['attendance', I.checkCircle, 'actAttendance'],
+  ['field', I.mic, 'navVoice'],
+  ['planner', I.calendar, 'planGroup']
 ];
 
 const KB=[
@@ -1390,21 +1944,56 @@ const reeng=b=>{
 };
 const mob=b=>b.mob!=null&&M[b.mob]?M[b.mob]:M.find(m=>m.c==b.c);
 
+/* Step-by-Step Community Creation */
 function comm(){
-  return `<h1>Communities</h1>
+  formStep.c = 1;
+  return `<h1>${tr('navComm')}</h1>
   <p class="mut">Profiles of community pockets in Mankhurd.</p>
   <details class="card">
-    <summary><b>${I.plus} Add new community pocket</b></summary>
-    <div style="margin-top:10px">
-      <input id="cn" placeholder="Community pocket name *">
-      <div class="row">
-        <input id="ca" placeholder="Target age range (e.g. 13–17)">
-        <input id="ci" placeholder="Key interests, separated by commas">
+    <summary><b>${I.plus} Add new community pocket (Guided steps)</b></summary>
+    <div style="margin-top:14px">
+      <div class="wizard-steps" role="navigation" aria-label="Community progress">
+        <div class="step-item c-step-item active"><span class="step-dot">1</span> <span>${tr('step1Basic')}</span></div>
+        <div class="step-item c-step-item"><span class="step-dot">2</span> <span>${tr('step2More')}</span></div>
+        <div class="step-item c-step-item"><span class="step-dot">3</span> <span>${tr('step3Review')}</span></div>
       </div>
-      <input id="cs" placeholder="Local challenges / issues">
-      <button onclick="addC()" id="addCBtn">${I.plus} Add community</button>
+
+      <!-- Step 1 -->
+      <div class="step-pane c-pane active" id="c-step-1">
+        <label>Community pocket name *</label>
+        <input id="cn" placeholder="e.g. Mandala Lane 7">
+        <label>Target age range</label>
+        <input id="ca" placeholder="e.g. 13–17">
+        <div class="wizard-actions">
+          <span></span>
+          <button type="button" onclick="const n=$('#cn').value.trim();if(!n)return toast('Enter community name');setStep('c',2)">${tr('next')} ${I.arrowRight}</button>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step-pane c-pane" id="c-step-2">
+        <label>Key youth interests (comma-separated)</label>
+        <input id="ci" placeholder="e.g. cricket, dance, computers">
+        <label>Local challenges & issues</label>
+        <input id="cs" placeholder="e.g. waterlogging, exam pressure, evening safety">
+        <div class="wizard-actions">
+          <button type="button" class="g" onclick="setStep('c',1)">${I.arrowRight} ${tr('back')}</button>
+          <button type="button" onclick="setStep('c',3)">${tr('next')} ${I.arrowRight}</button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step-pane c-pane" id="c-step-3">
+        <h3>Review community profile</h3>
+        <div id="c-summary" class="card" style="background:var(--bg)"></div>
+        <div class="wizard-actions">
+          <button type="button" class="g" onclick="setStep('c',2)">${I.arrowRight} ${tr('back')}</button>
+          <button type="button" onclick="addC()" id="addCBtn">${I.checkCircle} ${tr('confirmAndSave')}</button>
+        </div>
+      </div>
     </div>
   </details>
+
   ${Object.keys(C).map(k=>{
     const x=B.filter(b=>b.c==k),mb=M.find(m=>m.c==k),th=themes(k),up=SS.filter(s=>s.c==k&&s.w>=Date.now()-DAY).sort((a,b)=>a.w-b.w)[0],n=s=>x.filter(b=>st(b)==s).length;
     return `
@@ -1429,6 +2018,17 @@ function comm(){
       </div>
     </details>`;
   }).join('')}`;
+}
+
+function addC(){
+  const btn=$('#addCBtn');if(!btnLock(btn))return;
+  const n=$('#cn').value.trim();if(!n)return toast('Enter a community name');
+  if(Object.values(C).some(c=>c.n.toLowerCase()==n.toLowerCase()))return toast('That community already exists');
+  const k='c'+Date.now().toString(36),d={k,n,age:$('#ca').value.trim()||'—',int:$('#ci').value.split(',').map(z=>z.trim().toLowerCase()).filter(Boolean),iss:$('#cs').value.trim()||'Not recorded yet'};
+  C[k]={n:d.n,age:d.age,int:d.int,iss:d.iss};
+  if(live)DB.doc('communities/'+k).set(d).catch(er);
+  toast(live?'Community added':'Added locally (demo mode)');
+  go();
 }
 
 function rb(){
@@ -1462,7 +2062,7 @@ function rb(){
     </div>`;
   };
 
-  return `<h1>Risk Board</h1>
+  return `<h1>${tr('navRisk')}</h1>
   <p class="mut">Early-warning indicators prioritize youth needing proactive mobilizer engagement.</p>
   <div class="cols">
     ${col('High Risk: Act now',b=>!b.d&&risk(b).level=='High','High','high-risk-highlight')}
@@ -1516,7 +2116,7 @@ const mapSvg=()=>{
 };
 
 function kb(){
-  return `<h1>Knowledge Base</h1>
+  return `<h1>${tr('navKB')}</h1>
   <div class="card">
     <input id="kq" placeholder="Ask about Magic Bus playbooks, OASYS guidelines, attendance rules…" onkeydown="if(event.key==='Enter')askKB()" aria-label="Knowledge base query">
     <button onclick="askKB()" id="askBtn">${I.sparkles} Search guidelines</button>
@@ -1586,35 +2186,70 @@ function addKB(){
   const d={t,x};KB.push(d);add('kb',d);toast(live?'Document saved':'Saved locally (demo mode)');go();
 }
 
-const V={dashboard:dash,people,attendance:att,planner:plan,messages:msg,field,feedback:fb,team,reports:rep,communities:comm,risk:rb,kb};
+/* ==============================================================
+   VIEW ROUTER: DEFAULT TODAY, PLUS ALL 12 APPLICATION SCREENS
+   ============================================================== */
+const V={
+  today:todayView,
+  dashboard:dash,
+  people,
+  attendance:att,
+  planner:plan,
+  messages:msg,
+  field,
+  feedback:fb,
+  team,
+  reports:rep,
+  communities:comm,
+  risk:rb,
+  kb
+};
 
 function go(){
-  const h=(location.hash||'#dashboard').slice(1),v=V[h]?h:'dashboard';
+  const rawH = (location.hash||'').slice(1);
+  const v = V[rawH] ? rawH : 'today';
   cm();
-  $('#menuBtn').innerHTML=I.menu;
-  $('#sb').innerHTML=`
+  closeFab();
+
+  // Control FAB visibility: hide on attendance, voice, and modal screens
+  const fab = $('#fab');
+  if(fab){
+    fab.style.display = (v === 'attendance' || v === 'field') ? 'none' : 'block';
+  }
+
+  // Update top menu toggle button
+  $('#menuBtn').innerHTML = I.menu;
+
+  // Render Grouped 5-part Sidebar
+  $('#sb').innerHTML = `
     <div class="br">
       <div class="lg">${I.bus}</div>
       <div><b>Sarthi</b><span>Magic Bus · Mankhurd</span></div>
-    </div>`+SB.map(n=>`
-      <a href="#${n[0]}" class="${n[0]==v?'on':''}">
-        ${n[2]}<span class="l">${n[1]}</span>
-      </a>
-    `).join('')+`
-    <button onclick="document.body.classList.toggle('col')">${I.collapse} <span class="l">Collapse sidebar</span></button>`;
-  
-  $('#bn').innerHTML=NAV.map(n=>`
-    <a href="#${n[0]}" class="${n[0]==v?'on':''}">
-      ${n[1]}<span>${n[2]}</span>
+    </div>` +
+    SB_GROUPS.map(g => `
+      <div class="sb-group">${tr(g.title)}</div>` +
+      g.items.map(item => `
+        <a href="#${item[0]}" class="${item[0]===v?'on':''}">
+          ${item[2]}<span class="l">${tr(item[1])}</span>
+        </a>
+      `).join('')
+    ).join('') + `
+    <button class="collapse-btn" onclick="document.body.classList.toggle('col')">${I.collapse} <span class="l">Collapse sidebar</span></button>`;
+
+  // Render 5-Item Phone Bottom Bar
+  $('#bn').innerHTML = NAV_PHONE.map(n => `
+    <a href="#${n[0]}" class="${n[0]===v?'on':''}">
+      ${n[1]}<span>${tr(n[2])}</span>
     </a>
   `).join('');
 
   document.body.classList.remove('menu');
-  $('#app').innerHTML=V[v]();
-  if(v=='people')lst();
-  if(v=='messages')gen();
+  $('#app').innerHTML = V[v]();
+
+  if(v==='people') lst();
+  if(v==='messages') gen();
 }
 
-addEventListener('hashchange',()=>{go();scrollTo(0,0)});
-go();boot();
+addEventListener('hashchange', ()=>{ go(); scrollTo(0,0); });
+go(); boot();
 </script></body></html>
