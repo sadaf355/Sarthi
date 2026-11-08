@@ -2,39 +2,90 @@ Sarthi - Magic Bus Mobilization Assistant (Mankhurd Centre)
 ===========================================================
 
 HOW TO OPEN
-Double-click index.html. It opens in any modern browser on a computer or
-phone. No install or internet needed for the basic screens.
+Double-click index.html. It opens in any modern web browser on a phone,
+tablet, or desktop computer. Sarthi is fully self-contained in a single
+offline-native file with zero external dependencies, CDN links, or libraries.
 
-STANDALONE MODE
-Outside the published link two things are off:
-  - Shared database: changes are NOT saved and reset on reload (orange
-    "Demo mode" tag on the Dashboard).
-  - AI features (Draft with AI, AI session ideas, AI summary, Knowledge
-    Base answers, AI field-report reading) fall back to templates and
-    keyword matching.
-Voice input uses the browser's speech recognition (some browsers only).
+CORE CAPABILITIES & RECENT ENHANCEMENTS
+---------------------------------------
+
+1. "Today" Mobilizer Home Screen
+   - Default route (#today) tailored for morning field mobilization.
+   - Four large quick-action cards: Take attendance, Log a visit by voice,
+     Follow-ups due, and Message a guardian.
+   - Shows today's scheduled community sessions and top 3 urgent follow-ups.
+   - Full Supervisor Dashboard accessible anytime from the menu.
+
+2. Visual Dashboard & Inline SVG Charts
+   - Four lightweight, responsive SVG charts drawn without external libraries:
+     * Attendance Trend Line per community over recent sessions
+     * Risk-Level Donut breakdown (High, Medium, Low, Dropped)
+     * Community Coverage Strips (Active, At-risk, Dropped proportions)
+     * Monthly Enrolment and Retention bar chart
+   - Responsive scaling down to 320px phone viewports.
+   - Accessible screen-reader text summaries underneath each chart.
+
+3. Child Profile Cards
+   - Redesigned beneficiary cards in People view (#people):
+     * Circular initials avatar with Magic Bus theme colors
+     * Bold name, WCAG AA status badge, and risk level pill
+     * Community pocket, program track, and preferred outreach language
+     * Mini 8-session attendance strip with trend label
+     * Real-time "Contacted X days ago" counter
+     * One-tap quick action buttons: Call, Message, Add note, Dropout/Reinstate
+     * Expandable one-tap history with past session dates and engagement notes timeline.
+
+4. Gentle Motion & Animation (< 300ms)
+   - Snappy 200ms screen transition fade when navigating routes.
+   - Popping checkmark feedback animation on saving notes, attendance, or beneficiaries.
+   - Smooth card and accordion open/close transitions.
+   - Full @media (prefers-reduced-motion: reduce) compliance turns off all animations.
+
+5. First-Use Walkthrough & Screen Help
+   - Guided 3-step walkthrough modal explaining Today, Voice log, and the Risk board.
+   - Step dots indicator, Skip, Previous, and Next/Finish controls.
+   - Automatically shown on first visit; accessible anytime via the Help icon in the top header.
+   - Screen-level help icons next to every title provide a two-line explanation of each screen.
+
+6. Offline & Demo Status Banners + Action Queue
+   - Top notification banner bar:
+     * "Demo mode": Clear banner explaining local browser storage
+     * "Offline mode": Auto-detects network disconnection; actions are queued
+     * "Sync complete": Confirms queued actions synced when connection is restored
+   - Background offline action queue records operations when disconnected and syncs on reconnect.
+
+7. Simplified 5-Group Navigation & Mobile FAB
+   - Desktop sidebar organized into 5 intuitive groups:
+     Home, People, Field work, Plan, and Reports.
+   - Clean 5-item bottom navigation bar on mobile phones.
+   - Floating Action Button (FAB) on phones with quick actions (Voice log, Feedback, Attendance),
+     automatically hidden on Attendance and Voice screens.
+
+8. Fast Attendance Marker
+   - "Mark all present" and "Clear all" buttons for rapid single-tap logging.
+   - High-contrast card toggle rows with clear Present/Absent status pills.
+   - Real-time running tally ("14 of 18 present").
+   - Confirmation summary dialog before saving attendance.
+   - Past session date preservation maintains chronological integrity.
+
+9. Step-by-Step Guided Forms
+   - 3-step wizards with progress indicators for Add Beneficiary, Log Feedback, and Add Community.
+   - Essential fields first, secondary fields behind step 2, and review summary before submission.
+
+10. Multilingual Interface Switcher
+    - One-tap language toggle in header: English (EN), हिन्दी (Hindi), and मराठी (Marathi).
+    - Persistent language preference saved in browser storage.
+    - Centralized translations dictionary (T_UI) covering all menus, labels, and help tooltips.
 
 SCREENS
-Dashboard, Beneficiaries, Communities, Attendance, Risk Board, AI Comms,
-Session Planner, Field Map, Voice Log, Feedback, Knowledge Base, Reports.
+-------
+Today (#today), Supervisor Dashboard (#dashboard), Beneficiaries (#people),
+Communities (#communities), Take Attendance (#attendance), Risk Board (#risk),
+AI Comms (#messages), Session Planner (#planner), Field Map (#team),
+Voice Log (#field), Feedback (#feedback), Knowledge Base (#kb), Reports (#reports).
 
-NEW IN THIS VERSION
-  - Daily / weekly / monthly visit targets; registrations and attendance trend
-  - Beneficiary phone, enrollment date, referral source; dropped-out toggle
-  - Dated attendance sessions, per-child history, notes timeline, trend label
-  - "Days since contact" now grows with time (was a fixed number)
-  - Session outcomes can be logged; festival, exam and monsoon timing checks
-  - Pocket/lane per mobilizer; feedback linked to a beneficiary;
-    objection trend over 30-day windows; referral champions
-  - Voice registration creates a new beneficiary; full-name matching first
-  - Enrollment report, retention by month joined, attendance by community
-    and program
-
-SAMPLE DATA / PLACEHOLDERS
-All names, phone numbers and visits are made up. Mobilizer names and the
-targets (3 / 15 / 60 visits) are placeholders. Festival dates in the
-timing check are fixed approximations; confirm before scheduling.
-
-STILL TO DO
-Real map tiles, OASYS sync, logins and roles, native-speaker review of
-Hindi and Marathi templates, a trained ML risk model (optional).
+DATA & PRIVACY
+--------------
+All sample names, mobile numbers, and community pockets in Mankhurd are demonstration
+placeholders. Festival dates in the timing check are fixed approximations; confirm before
+scheduling community workshops.

@@ -255,12 +255,61 @@ label{font-size:13px;font-weight:500;color:var(--mut);display:block;margin-top:6
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(80px + env(safe-area-inset-bottom,0px));background:#0f172a;color:#ffffff;padding:10px 18px;border-radius:99px;font-size:13px;font-weight:500;box-shadow:var(--sh-lg);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:9;display:flex;align-items:center;gap:8px}
 .toast.s{opacity:1;transform:translateX(-50%) translateY(-4px)}
 details summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px;padding:4px 0}
+
+/* 14. Gentle motion (<300ms, prefers-reduced-motion) */
+.screen-fade{animation:screenFade 200ms cubic-bezier(0.16, 1, 0.3, 1)}
+@keyframes screenFade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.save-check-pop{display:inline-flex;align-items:center;animation:checkPop 220ms ease-out forwards}
+@keyframes checkPop{0%{transform:scale(0.5);opacity:0}60%{transform:scale(1.2);opacity:1}100%{transform:scale(1)}}
+details{transition:background .18s,box-shadow .18s}
+details[open] > summary ~ *{animation:slideDown 200ms ease-out}
+@keyframes slideDown{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.001ms!important;animation-iteration-count:1!important;transition-duration:0.001ms!important}
+  .screen-fade,.save-check-pop,details[open] > summary ~ *{animation:none!important;transform:none!important}
+}
+
+/* 16. Status Banners */
+#bannerBar{max-width:1120px;margin:10px auto 0;padding:0 16px;display:flex;flex-direction:column;gap:8px}
+@media(min-width:820px){#bannerBar{margin-left:280px}}
+.status-banner{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.4;box-shadow:var(--sh)}
+.demo-banner{background:var(--meb);color:var(--me);border:1px solid var(--meb-bd)}
+.offline-banner{background:var(--hib);color:var(--hi);border:1px solid var(--hib-bd)}
+.sync-banner{background:var(--lob);color:var(--lo);border:1px solid var(--lob-bd)}
+.banner-close{background:transparent;border:0;color:inherit;font-size:18px;cursor:pointer;padding:0 4px;min-height:auto;line-height:1;margin:0}
+
+/* 13. Child Profile Card */
+.profile-card{background:var(--card);border:1.5px solid var(--bd);border-radius:14px;box-shadow:var(--sh);padding:16px;margin-bottom:14px;transition:box-shadow .18s,border-color .18s}
+.profile-card.high-risk-highlight{border-left:4px solid var(--hi);background:var(--hib-card)}
+.profile-top{display:flex;align-items:flex-start;gap:12px}
+.avatar{width:46px;height:46px;border-radius:50%;background:var(--pri-l);color:var(--pri);display:grid;place-items:center;font-weight:700;font-size:15px;flex-shrink:0;border:1.5px solid var(--pri)}
+.profile-info{flex:1;min-width:0}
+.profile-info b{font-size:16px;color:var(--nv);display:inline-block;margin-right:6px}
+.profile-quick-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.profile-tabs summary{font-weight:600;font-size:13px;color:var(--mut);cursor:pointer;padding:8px 0;margin-top:8px;border-top:1px solid var(--bd)}
+
+/* 12. Visual Dashboard SVG Charts */
+.chart-wrapper{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin:12px 0}
+.chart-svg{width:100%;max-width:100%;height:auto;display:block}
+.chart-summary{font-size:12px;color:var(--mut);line-height:1.5;margin-top:8px}
+
+/* 15. Onboarding & Screen Help */
+.screen-help-btn{background:transparent;border:1px solid var(--bd);color:var(--mut);min-height:36px;width:36px;padding:0;border-radius:50%;display:grid;place-items:center;cursor:pointer;margin:0;flex-shrink:0}
+.screen-help-btn:hover{background:var(--pri-l);border-color:var(--pri);color:var(--pri)}
+.screen-help-card{background:var(--pri-l);border:1px solid var(--pri);border-radius:10px;padding:10px 14px;font-size:13px;margin:8px 0 16px;line-height:1.5;color:var(--nv)}
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,0.7);display:grid;place-items:center;z-index:30;padding:16px;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.walkthrough-card{background:var(--card);border:1px solid var(--bd);border-radius:16px;box-shadow:var(--sh-lg);max-width:440px;width:100%;padding:22px;color:var(--tx)}
+.walkthrough-step-dots{display:flex;justify-content:center;gap:6px;margin:14px 0}
+.walkthrough-dot{width:8px;height:8px;border-radius:4px;background:var(--bd);transition:all .2s}
+.walkthrough-dot.on{background:var(--pri);width:20px}
+
 </style></head><body>
 
 <header id="top">
   <button onclick="document.body.classList.toggle('menu')" aria-label="Open menu" class="btn g sm" id="menuBtn"></button>
   <b>Sarthi</b>
   <span class="mut" style="font-size:13px">Magic Bus · Mankhurd</span>
+  <button class="btn g sm" onclick="openWalkthrough(0)" aria-label="First-use walkthrough and help" title="Onboarding Walkthrough & Help" style="min-height:36px;padding:4px 10px;margin:0 0 0 auto;font-size:12px">${I.helpCircle} Help</button>
   <div class="lang-switch" role="group" aria-label="Interface Language">
     <button class="on" id="btn-en" onclick="setLang('en')">EN</button>
     <button id="btn-hi" onclick="setLang('hi')">हिन्दी</button>
@@ -270,6 +319,28 @@ details summary{cursor:pointer;min-height:44px;display:flex;align-items:center;g
 
 <aside id="sb" aria-label="Sidebar navigation"></aside>
 <nav id="bn" aria-label="Bottom navigation"></nav>
+
+<div id="bannerBar" role="region" aria-label="System status notifications">
+  <div id="demoBanner" class="status-banner demo-banner" style="display:${!live ? 'flex' : 'none'}">
+    <div style="display:flex;align-items:center;gap:8px">
+      ${I.shieldAlert}
+      <span><b>Demo mode:</b> Changes are saved locally in your browser and reset on reload.</span>
+    </div>
+    <button class="banner-close" onclick="$('#demoBanner').style.display='none'" aria-label="Dismiss banner">&times;</button>
+  </div>
+  <div id="offlineBanner" class="status-banner offline-banner" style="display:${navigator.onLine ? 'none' : 'flex'}">
+    <div style="display:flex;align-items:center;gap:8px">
+      ${I.wifiOff}
+      <span id="offlineBannerText"><b>Offline:</b> You can continue taking attendance and logging visits. Actions are queued.</span>
+    </div>
+  </div>
+  <div id="syncBanner" class="status-banner sync-banner" style="display:none">
+    <div style="display:flex;align-items:center;gap:8px">
+      ${I.checkCircle}
+      <span id="syncBannerText"><b>Sync complete:</b> Offline actions recorded.</span>
+    </div>
+  </div>
+</div>
 <main id="app"></main>
 
 <!-- Floating Action Button for Phones -->
@@ -347,7 +418,38 @@ const T_UI = {
     navPlanner: "Session Planner",
     navComms: "AI Comms",
     navReports: "Reports",
-    navKB: "Knowledge Base"
+    navKB: "Knowledge Base",
+    walkthroughTitle: "Welcome to Sarthi",
+    step1Title: "1. Today Home Screen",
+    step1Desc: "Your daily mobilization cockpit: mark attendance in seconds, see today's community sessions, and access urgent follow-ups.",
+    step2Title: "2. Voice Field Log",
+    step2Desc: "Speak naturally in Hindi, Marathi, or English. Sarthi extracts names and community pockets, and auto-registers new youth.",
+    step3Title: "3. Early Warning Risk Board",
+    step3Desc: "Spot attendance drops before dropouts happen. Review missed streaks and immediately draft alerts to guardians.",
+    btnSkip: "Skip",
+    btnNext: "Next",
+    btnFinish: "Get Started",
+    btnCall: "Call",
+    btnMessage: "Message",
+    btnAddNote: "Add note",
+    noteSaved: "Note saved",
+    contactDaysAgo: "{n}d ago",
+    historyTimeline: "Session history & notes timeline",
+    screenHelpTitle: "Screen Guide",
+    gotIt: "Got it",
+    help_today: "Your morning launchpad: mark session attendance, check today's sessions, and follow up with at-risk youth.",
+    help_dashboard: "High-level overview of team targets, cohort retention, risk levels, and community coverage.",
+    help_people: "Directory of youth: review profiles, attendance history, engagement notes, and contact parents.",
+    help_communities: "Community pocket profiles across Mankhurd: target ages, youth interests, and mobilization timing.",
+    help_attendance: "Rapid attendance logger with 'Mark all present', live count, and date history preservation.",
+    help_risk: "Early detection radar for children missing sessions or showing signs of dropout risk.",
+    help_messages: "Draft tailored guardian communications and session alerts with AI templates in 3 languages.",
+    help_planner: "Plan community sessions with festival timing clash checks and record turnout outcomes.",
+    help_team: "Coverage pathways, mobilizer lane assignments, and hub landmarks across Mankhurd pockets.",
+    help_field: "Voice dictation to record field visits and register new beneficiaries without typing.",
+    help_feedback: "Record parent objections, work schedules, school exam timings, and visit outcomes.",
+    help_kb: "Magic Bus mobilization SOPs, parent objection talk-tracks, and field playbooks.",
+    help_reports: "Cohort analytics: attendance trends, retention by month joined, and mobilizer performance.",
   },
   hi: {
     todayTitle: "आज की कार्य-योजना",
@@ -459,7 +561,38 @@ const T_UI = {
     navPlanner: "सत्र नियोजक",
     navComms: "एआय संदेश",
     navReports: "अहवाल",
-    navKB: "माहिती भांडार"
+    navKB: "माहिती भांडार",
+    walkthroughTitle: "सारथीमध्ये आपले स्वागत आहे",
+    step1Title: "1. आजचा फील्ड प्लॅन",
+    step1Desc: "तुमचा दैनंदिन केंद्र: एका टॅपमध्ये उपस्थिती घ्या, आजची सत्रे पहा आणि त्वरित पाठपुरावा करा.",
+    step2Title: "2. व्हॉइस फील्ड लॉग",
+    step2Desc: "हिंदी, मराठी किंवा इंग्रजीत सहज बोला. सारथी नावे आणि वस्त्या ओळखून नवीन मुलांची नोंदणी करते.",
+    step3Title: "3. जोखीम फलक आणि पूर्वसूचना",
+    step3Desc: "गळती होण्यापूर्वी घटलेली उपस्थिती ओळखा. गैरहजर सत्रांची यादी पहा आणि पालकांना संदेश पाठवा.",
+    btnSkip: "वगळा",
+    btnNext: "पुढील",
+    btnFinish: "सुरू करा",
+    btnCall: "कॉल करा",
+    btnMessage: "संदेश",
+    btnAddNote: "नोंद जोडा",
+    noteSaved: "नोंद सेव्ह केली",
+    contactDaysAgo: "{n} दिवसांपूर्वी",
+    historyTimeline: "सत्र इतिहास आणि नोंद टाइमलाइन",
+    screenHelpTitle: "स्क्रीन मार्गदर्शक",
+    gotIt: "समजले",
+    help_today: "तुमचा मुख्य केंद्र: सत्र उपस्थिती नोंदवा, आजची सत्रे तपासा आणि पाठपुरावा करा.",
+    help_dashboard: "संघाची उद्दिष्टे, उपस्थिती प्रमाण, जोखीम पातळी आणि वस्ती कव्हरेजचा आढावा.",
+    help_people: "मुलांची यादी: प्रोफाइल, उपस्थिती इतिहास, नोंदी आणि पालकांशी संवाद.",
+    help_communities: "मानखुर्द वस्त्यांचे प्रोफाइल: वयोगट, मुलांची आवड आणि सत्र नियोजन.",
+    help_attendance: "जलद उपस्थिती नोंदणी: 'सर्व उपस्थित', थेट मोजणी आणि तारीख इतिहास.",
+    help_risk: "सत्रे चुकणाऱ्या किंवा गळतीचा धोका असलेल्या मुलांसाठी पूर्वसूचना फलक.",
+    help_messages: "3 भाषांमध्ये पालकांसाठी एआय सत्र संदेश आणि स्मरणपत्रे तयार करा.",
+    help_planner: "सण आणि परीक्षेचा अडथळा तपासून सामुदायिक सत्रांचे नियोजन करा.",
+    help_team: "मानखुर्दच्या वस्त्यांचे मार्ग, केंद्र खुणा आणि मोबिलायझर वाटप नकाशा.",
+    help_field: "टाइप न करता बोलून भेटींची नोंद करा आणि नवीन मुलांची नोंदणी करा.",
+    help_feedback: "पालकांच्या अडचणी, कामाची वेळ आणि शाळा परीक्षा फीडबॅक नोंदवा.",
+    help_kb: "मॅजिक बस मोबिलायझेशन मार्गदर्शक, पालक समुपदेशन आणि कार्यपद्धती.",
+    help_reports: "कोहॉर्ट विश्लेषण: उपस्थिती ट्रेंड, टिकून राहिलेली मुले आणि कामगिरी अहवाल.",
   }
 };
 
@@ -478,10 +611,464 @@ function setLang(l){
   go();
 }
 
+
+/* ==============================================================
+   12, 13, 14, 15, 16 NEW HELPERS:
+   - Child Profile Card Initials Avatar
+   - Inline SVG Visual Charts (Trend, Donut, Coverage, Monthly Enrolment)
+   - Onboarding Walkthrough & Screen Help
+   - Offline Queue & Status Banners
+   ============================================================== */
+
+let screenHelpOpen = {};
+
+function toggleScreenHelp(key){
+  screenHelpOpen[key] = !screenHelpOpen[key];
+  const el = $('#help-' + key);
+  if(el){
+    el.style.display = screenHelpOpen[key] ? 'block' : 'none';
+  }
+}
+
+function helpHeader(key, defaultTitle){
+  return `
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px">
+    <h1 style="margin:0">${defaultTitle}</h1>
+    <button class="screen-help-btn" onclick="toggleScreenHelp('${key}')" aria-label="Screen help and explanation" title="Learn about this screen">
+      ${I.helpCircle}
+    </button>
+  </div>
+  <div id="help-${key}" class="screen-help-card" style="display:${screenHelpOpen[key] ? 'block' : 'none'}">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+      <div>
+        <b>${tr('screenHelpTitle')}:</b> ${tr('help_' + key)}
+      </div>
+      <button class="g sm" style="margin:0;padding:4px 8px;min-height:auto" onclick="toggleScreenHelp('${key}')">${tr('gotIt')}</button>
+    </div>
+  </div>`;
+}
+
+function avatarInitials(name){
+  if(!name) return 'MB';
+  const parts = name.trim().split(/\s+/);
+  if(parts.length >= 2){
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  }
+  return parts[0].slice(0, 2).toUpperCase();
+}
+
+function openNoteModal(bId){
+  const b = B.find(x => x.id === bId) || B[bId];
+  if(!b) return;
+  cm();
+  const d = document.createElement('div');
+  d.id = 'md';
+  d.className = 'modal-backdrop';
+  d.innerHTML = `
+    <div class="card" style="max-width:440px;width:100%;box-shadow:var(--sh-lg);border-radius:16px">
+      <h3>${I.feedback} Add Note for ${esc(b.n)}</h3>
+      <p class="mut" style="font-size:13px">${C[b.c]?C[b.c].n:b.c} · ${b.p}</p>
+      <div style="margin:12px 0">
+        <label>Engagement / Visit Note</label>
+        <textarea id="modalNoteText" rows="3" placeholder="Enter parent discussion, reason for absence, school timings...">${esc(b.note || '')}</textarea>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:8px">
+        <button class="g" onclick="cm()">${tr('cancel')}</button>
+        <button onclick="saveModalNote(${b.id})">${I.check} Save note</button>
+      </div>
+    </div>`;
+  document.body.appendChild(d);
+}
+
+function saveModalNote(bId){
+  const b = B.find(x => x.id === bId) || B[bId];
+  if(!b) return;
+  const val = ($('#modalNoteText') ? $('#modalNoteText').value : '').trim();
+  b.note = val;
+  if(val){
+    b.nl = (b.nl || []).concat({ t: Date.now(), x: val });
+  }
+  sv('people/p' + b.id, { note: b.note, nl: b.nl });
+  cm();
+  if(!navigator.onLine){
+    queueOfflineAction('note', { bId, note: val });
+  } else {
+    toast('Note saved for ' + b.n);
+  }
+  lst();
+}
+
+/* 12. Inline SVG Visual Dashboard Charts */
+function chartAttendanceTrend(){
+  const commKeys = Object.keys(C);
+  const colors = { m: 'var(--pri)', b: '#0284c7', l: '#8b5cf6', s: '#10b981' };
+  const sessionPoints = [0, 1, 2, 3, 4, 5];
+  const w = 340, h = 160, padL = 36, padR = 16, padT = 20, padB = 28;
+  const plotW = w - padL - padR, plotH = h - padT - padB;
+  
+  const lines = commKeys.map(k => {
+    const x = B.filter(b => b.c === k && (b.a || []).length >= 8);
+    const pts = sessionPoints.map(i => {
+      if(!x.length) return 70;
+      const slice = x.map(b => b.a[i + 2] ?? b.a[i] ?? 1);
+      return Math.round(sum(slice) / x.length * 100);
+    });
+    return { k, name: C[k].n, color: colors[k] || 'var(--pri)', pts };
+  });
+
+  const svgLines = lines.map(l => {
+    const coords = l.pts.map((val, idx) => {
+      const cx = padL + (idx / (sessionPoints.length - 1)) * plotW;
+      const cy = padT + (1 - (val - 40) / 60) * plotH;
+      return cx.toFixed(1) + ',' + cy.toFixed(1);
+    });
+    const d = 'M ' + coords.join(' L ');
+    const dots = l.pts.map((val, idx) => {
+      const cx = padL + (idx / (sessionPoints.length - 1)) * plotW;
+      const cy = padT + (1 - (val - 40) / 60) * plotH;
+      return `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="3" fill="${l.color}" />`;
+    }).join('');
+    return `<path d="${d}" fill="none" stroke="${l.color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />${dots}`;
+  }).join('');
+
+  const summaryStr = lines.map(l => l.name + ': ' + l.pts[l.pts.length - 1] + '%').join(', ');
+
+  return `
+  <div class="chart-wrapper">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px">
+      <span class="mut" style="font-size:12px;font-weight:600">Last 6 sessions (40% to 100%)</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;font-size:11px">
+        ${lines.map(l => `<span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:${l.color}"></span>${l.name} (${l.pts[l.pts.length - 1]}%)</span>`).join('')}
+      </div>
+    </div>
+    <svg viewBox="0 0 ${w} ${h}" class="chart-svg" role="img" aria-label="Attendance trend line per community: ${summaryStr}">
+      <title>Attendance trend per community</title>
+      <line x1="${padL}" y1="${padT}" x2="${w - padR}" y2="${padT}" stroke="var(--bd)" stroke-dasharray="3,3" />
+      <text x="${padL - 6}" y="${padT + 4}" fill="var(--mut)" font-size="9" text-anchor="end">100%</text>
+      
+      <line x1="${padL}" y1="${padT + plotH * 0.5}" x2="${w - padR}" y2="${padT + plotH * 0.5}" stroke="var(--bd)" stroke-dasharray="3,3" />
+      <text x="${padL - 6}" y="${padT + plotH * 0.5 + 4}" fill="var(--mut)" font-size="9" text-anchor="end">70%</text>
+
+      <line x1="${padL}" y1="${padT + plotH}" x2="${w - padR}" y2="${padT + plotH}" stroke="var(--bd)" />
+      <text x="${padL - 6}" y="${padT + plotH + 4}" fill="var(--mut)" font-size="9" text-anchor="end">40%</text>
+
+      ${sessionPoints.map((p, idx) => {
+        const cx = padL + (idx / (sessionPoints.length - 1)) * plotW;
+        return `<text x="${cx}" y="${h - 8}" fill="var(--mut)" font-size="9" text-anchor="middle">S${idx + 1}</text>`;
+      }).join('')}
+
+      ${svgLines}
+    </svg>
+    <p class="mut chart-summary">
+      <b>Screen reader summary:</b> Attendance trend per community over recent sessions: ${summaryStr}.
+    </p>
+  </div>`;
+}
+
+function chartRiskDonut(){
+  const total = B.length || 1;
+  const nh = B.filter(b => !b.d && risk(b).level === 'High').length;
+  const nm = B.filter(b => !b.d && risk(b).level === 'Medium').length;
+  const nl = B.filter(b => !b.d && risk(b).level === 'Low').length;
+  const nd = B.filter(b => b.d).length;
+
+  const ph = Math.round(nh / total * 100);
+  const pm = Math.round(nm / total * 100);
+  const pl = Math.round(nl / total * 100);
+  const pd = 100 - ph - pm - pl;
+
+  const w = 340, h = 150;
+  const r = 46, cx = 75, cy = 75;
+  const c = 2 * Math.PI * r;
+
+  const slices = [
+    { label: 'High risk', count: nh, pct: ph, color: 'var(--hi)' },
+    { label: 'Medium risk', count: nm, pct: pm, color: 'var(--me)' },
+    { label: 'Low risk', count: nl, pct: pl, color: 'var(--lo)' },
+    { label: 'Dropped out', count: nd, pct: pd, color: 'var(--drop)' }
+  ];
+
+  let offset = 0;
+  const svgSlices = slices.map(s => {
+    const len = (s.pct / 100) * c;
+    const path = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${s.color}" stroke-width="16" stroke-dasharray="${len.toFixed(1)} ${(c - len).toFixed(1)}" stroke-dashoffset="${(-offset).toFixed(1)}" />`;
+    offset += len;
+    return path;
+  }).join('');
+
+  const summary = nh + ' High risk (' + ph + '%), ' + nm + ' Medium risk (' + pm + '%), ' + nl + ' Low risk (' + pl + '%), ' + nd + ' Dropped out (' + pd + '%).';
+
+  return `
+  <div class="chart-wrapper">
+    <svg viewBox="0 0 ${w} ${h}" class="chart-svg" role="img" aria-label="Risk-level donut chart: ${summary}">
+      <title>Risk-level donut</title>
+      <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--bg)" stroke-width="16" />
+      <g transform="rotate(-90 ${cx} ${cy})">
+        ${svgSlices}
+      </g>
+      <text x="${cx}" y="${cy - 2}" text-anchor="middle" font-size="18" font-weight="700" fill="var(--tx)">${total}</text>
+      <text x="${cx}" y="${cy + 13}" text-anchor="middle" font-size="10" fill="var(--mut)">YOUTH</text>
+
+      ${slices.map((s, idx) => `
+        <g transform="translate(165, ${22 + idx * 28})">
+          <circle cx="6" cy="6" r="5" fill="${s.color}" />
+          <text x="18" y="10" font-size="12" font-weight="600" fill="var(--tx)">${s.label}: ${s.count}</text>
+          <text x="145" y="10" font-size="11" fill="var(--mut)" text-anchor="end">${s.pct}%</text>
+        </g>
+      `).join('')}
+    </svg>
+    <p class="mut chart-summary">
+      <b>Screen reader summary:</b> Cohort risk breakdown: ${summary}
+    </p>
+  </div>`;
+}
+
+function chartCoverageStrip(){
+  const commKeys = Object.keys(C);
+  const w = 340, h = 150;
+  const barH = 14;
+  const summaryParts = [];
+
+  const rows = commKeys.map((k, idx) => {
+    const list = B.filter(b => b.c === k);
+    const total = list.length || 1;
+    const a = list.filter(b => !b.d && st(b) !== 'At risk').length;
+    const ar = list.filter(b => !b.d && st(b) === 'At risk').length;
+    const dr = list.filter(b => b.d).length;
+
+    const pA = Math.round(a / total * 100);
+    const pAr = Math.round(ar / total * 100);
+    const pDr = 100 - pA - pAr;
+
+    summaryParts.push(C[k].n + ': ' + pA + '% active, ' + pAr + '% at risk, ' + pDr + '% dropped');
+    const y = 16 + idx * 32;
+    const barW = 190, barX = 130;
+    const wA = (pA / 100) * barW;
+    const wAr = (pAr / 100) * barW;
+    const wDr = barW - wA - wAr;
+
+    return `
+      <g>
+        <text x="8" y="${y + 11}" font-size="12" font-weight="600" fill="var(--tx)">${C[k].n}</text>
+        <text x="120" y="${y + 11}" font-size="11" fill="var(--mut)" text-anchor="end">${list.length}</text>
+        <rect x="${barX}" y="${y}" width="${barW}" height="${barH}" rx="4" fill="var(--bg)" />
+        <rect x="${barX}" y="${y}" width="${wA}" height="${barH}" rx="4" fill="var(--lo)" />
+        <rect x="${barX + wA}" y="${y}" width="${wAr}" height="${barH}" fill="var(--me)" />
+        <rect x="${barX + wA + wAr}" y="${y}" width="${wDr}" height="${barH}" rx="4" fill="var(--drop)" />
+      </g>
+    `;
+  }).join('');
+
+  return `
+  <div class="chart-wrapper">
+    <div style="display:flex;justify-content:flex-end;gap:12px;font-size:11px;margin-bottom:6px">
+      <span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:var(--lo)"></span>Active</span>
+      <span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:var(--me)"></span>At risk</span>
+      <span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:var(--drop)"></span>Dropped</span>
+    </div>
+    <svg viewBox="0 0 ${w} ${h}" class="chart-svg" role="img" aria-label="Community coverage strip: ${summaryParts.join('; ')}">
+      <title>Community coverage strips</title>
+      ${rows}
+    </svg>
+    <p class="mut chart-summary">
+      <b>Screen reader summary:</b> Community coverage distribution: ${summaryParts.join('; ')}.
+    </p>
+  </div>`;
+}
+
+function chartMonthlyEnrolment(){
+  const g = {};
+  const E = B.filter(b => b.en);
+  [...E].sort((x, y) => x.en - y.en).forEach(b => {
+    const m = mon(b.en);
+    (g[m] = g[m] || []).push(b);
+  });
+  const entries = Object.entries(g);
+  if(!entries.length) {
+    return `<p class="mut">No monthly enrollment data recorded.</p>`;
+  }
+
+  const maxVal = Math.max(...entries.map(e => e[1].length), 1);
+  const w = 340, h = 150;
+  const padL = 30, padR = 16, padT = 24, padB = 26;
+  const plotW = w - padL - padR;
+  const plotH = h - padT - padB;
+  const colW = Math.min(36, plotW / entries.length - 8);
+
+  const summaryParts = [];
+  let totalRetained = 0;
+
+  const svgBars = entries.map(([m, list], idx) => {
+    const count = list.length;
+    const retained = list.filter(b => !b.d).length;
+    const retPct = Math.round(retained / count * 100);
+    totalRetained += retPct;
+    summaryParts.push(m + ': ' + count + ' enrolled (' + retPct + '% retained)');
+
+    const colX = padL + (idx + 0.5) * (plotW / entries.length) - colW / 2;
+    const colH = (count / maxVal) * plotH;
+    const colY = padT + plotH - colH;
+
+    return `
+      <g>
+        <rect x="${colX}" y="${colY}" width="${colW}" height="${colH}" rx="4" fill="var(--pri)" />
+        <text x="${colX + colW / 2}" y="${colY - 5}" font-size="11" font-weight="700" fill="var(--tx)" text-anchor="middle">${count}</text>
+        <text x="${colX + colW / 2}" y="${h - 8}" font-size="10" fill="var(--mut)" text-anchor="middle">${m}</text>
+        <text x="${colX + colW / 2}" y="${colY + colH / 2 + 3}" font-size="9" fill="#fff" font-weight="600" text-anchor="middle">${retPct}%</text>
+      </g>
+    `;
+  }).join('');
+
+  const avgRetention = Math.round(totalRetained / entries.length);
+
+  return `
+  <div class="chart-wrapper">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:6px">
+      <span class="mut">Monthly cohorts (enrolled & % retained)</span>
+      <span class="badge Low" style="font-size:11px">Avg retention ${avgRetention}%</span>
+    </div>
+    <svg viewBox="0 0 ${w} ${h}" class="chart-svg" role="img" aria-label="Monthly enrolment chart: ${summaryParts.join(', ')}">
+      <title>Enrolment by month</title>
+      <line x1="${padL}" y1="${padT + plotH}" x2="${w - padR}" y2="${padT + plotH}" stroke="var(--bd)" />
+      ${svgBars}
+    </svg>
+    <p class="mut chart-summary">
+      <b>Screen reader summary:</b> Monthly enrollment and retention: ${summaryParts.join(', ')}. Average cohort retention is ${avgRetention}%.
+    </p>
+  </div>`;
+}
+
+/* 15. Onboarding Walkthrough Modal */
+let walkthroughStep = 0;
+
+function openWalkthrough(step = 0){
+  cm();
+  document.querySelectorAll('#walkthroughModal').forEach(m => m.remove());
+  walkthroughStep = step;
+  const d = document.createElement('div');
+  d.id = 'walkthroughModal';
+  d.className = 'modal-backdrop';
+  
+  const steps = [
+    {
+      icon: I.home,
+      title: tr('step1Title'),
+      desc: tr('step1Desc'),
+      highlight: "Today's sessions · Quick action buttons · Urgent follow-ups"
+    },
+    {
+      icon: I.mic,
+      title: tr('step2Title'),
+      desc: tr('step2Desc'),
+      highlight: "Hindi, Marathi & English speech · Auto child registration · Offline ready"
+    },
+    {
+      icon: I.alertTriangle,
+      title: tr('step3Title'),
+      desc: tr('step3Desc'),
+      highlight: "Early dropout warning · Missed streak alerts · AI parent messages"
+    }
+  ];
+
+  const current = steps[step] || steps[0];
+
+  d.innerHTML = `
+  <div class="walkthrough-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <span class="badge Neutral" style="font-size:12px;padding:4px 8px">${tr('walkthroughTitle')}</span>
+      <button class="banner-close" onclick="closeWalkthrough()" aria-label="Close walkthrough">&times;</button>
+    </div>
+    
+    <div style="width:52px;height:52px;border-radius:26px;background:var(--pri-l);color:var(--pri);display:grid;place-items:center;margin-bottom:12px">
+      ${current.icon}
+    </div>
+
+    <h2 style="margin:0 0 8px;font-size:19px">${current.title}</h2>
+    <p style="line-height:1.6;margin-bottom:12px;color:var(--tx)">${current.desc}</p>
+    <div style="background:var(--bg);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--mut);margin-bottom:16px">
+      <b>Highlights:</b> ${current.highlight}
+    </div>
+
+    <div class="walkthrough-step-dots" role="presentation">
+      <span class="walkthrough-dot ${step===0?'on':''}"></span>
+      <span class="walkthrough-dot ${step===1?'on':''}"></span>
+      <span class="walkthrough-dot ${step===2?'on':''}"></span>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px">
+      <button class="g" onclick="closeWalkthrough()">${tr('btnSkip')}</button>
+      <div style="display:flex;gap:6px">
+        ${step > 0 ? `<button class="g" onclick="openWalkthrough(${step - 1})">${tr('back')}</button>` : ''}
+        ${step < 2 ? `<button onclick="openWalkthrough(${step + 1})">${tr('btnNext')} ${I.arrowRight}</button>` : `<button onclick="closeWalkthrough()">${I.checkCircle} ${tr('btnFinish')}</button>`}
+      </div>
+    </div>
+  </div>`;
+  document.body.appendChild(d);
+}
+
+function closeWalkthrough(){
+  localStorage.setItem('sarthi_onboarded', '1');
+  document.querySelectorAll('#walkthroughModal').forEach(m => m.remove());
+}
+
+/* 16. Offline Queue & Status Banners */
+let OFFLINE_QUEUE = [];
+try {
+  OFFLINE_QUEUE = JSON.parse(localStorage.getItem('sarthi_offline_queue') || '[]');
+} catch(e){ OFFLINE_QUEUE = []; }
+
+function queueOfflineAction(actionType, data){
+  OFFLINE_QUEUE.push({ type: actionType, data, ts: Date.now() });
+  localStorage.setItem('sarthi_offline_queue', JSON.stringify(OFFLINE_QUEUE));
+  updateOfflineBanner();
+  toast('Action saved offline (queued for sync)');
+}
+
+function updateOfflineBanner(){
+  const b = $('#offlineBanner');
+  const t = $('#offlineBannerText');
+  if(!b) return;
+  if(!navigator.onLine){
+    b.style.display = 'flex';
+    if(t){
+      t.innerHTML = '<b>You are offline:</b> Sarthi works offline. ' + (OFFLINE_QUEUE.length ? '(' + OFFLINE_QUEUE.length + ' actions queued)' : 'Actions will be queued.');
+    }
+  } else {
+    b.style.display = 'none';
+  }
+}
+
+function syncOfflineQueue(){
+  if(!OFFLINE_QUEUE.length) return;
+  const count = OFFLINE_QUEUE.length;
+  OFFLINE_QUEUE = [];
+  localStorage.removeItem('sarthi_offline_queue');
+  updateOfflineBanner();
+  const sb = $('#syncBanner');
+  const st = $('#syncBannerText');
+  if(sb && st){
+    st.innerHTML = '<b>Sync complete:</b> ' + count + ' offline action(s) synced successfully!';
+    sb.style.display = 'flex';
+    setTimeout(() => { if(sb) sb.style.display = 'none'; }, 4000);
+  }
+  toast('Sync complete: ' + count + ' offline action(s) synced!');
+}
+
+window.addEventListener('online', () => {
+  updateOfflineBanner();
+  syncOfflineQueue();
+});
+window.addEventListener('offline', () => {
+  updateOfflineBanner();
+});
+
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 /* Real inline SVG icon library */
 const I={
+  helpCircle:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+  wifiOff:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.58 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>`,
+  clock:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
   bus:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="3"/><circle cx="7.5" cy="19.5" r="1.5"/><circle cx="16.5" cy="19.5" r="1.5"/><path d="M3 10h18M7 4v3M17 4v3M7 15h2M15 15h2"/></svg>`,
   home:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
   dashboard:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>`,
@@ -587,7 +1174,7 @@ const m=(b.note||'').match(/exam|work|job|shift|safety|marriage/i);if(m){s+=1;r.
 return{s,r,level:s>=5?'High':s>=3?'Medium':'Low'}}
 const st=b=>b.d?'Dropped out':risk(b).level!='Low'?'At risk':reeng(b)?'Re-engaged':'Active';
 const dots=b=>`<span aria-label="attendance ${pct(b)} percent" style="display:inline-flex;align-items:center;gap:2px">${(b.a||[]).map(v=>`<i class="dot ${v?'':'x'}"></i>`).join('')} <span class="mut" style="font-size:12px;margin-left:4px">${pct(b)}%</span></span>`;
-function toast(m){const t=$('#t');t.innerHTML=`${I.checkCircle} <span>${esc(m)}</span>`;t.classList.add('s');clearTimeout(tm);tm=setTimeout(()=>t.classList.remove('s'),2600)}
+function toast(m){const t=$('#t');if(!t)return;t.innerHTML=`<span class="save-check-pop">${I.checkCircle}</span> <span>${esc(m)}</span>`;t.classList.add('s');clearTimeout(tm);tm=setTimeout(()=>t.classList.remove('s'),2600)}
 async function cp(t){try{await navigator.clipboard.writeText(t);toast('Copied to clipboard')}catch(e){toast('Please select text and copy manually')}}
 const cavg=k=>{const x=B.filter(b=>b.c==k);return x.length?Math.round(sum(x.map(pct))/x.length):0};
 const themes=c=>{const o={};F.filter(f=>f.c==c&&f.o!='Interested').forEach(f=>o[f.t]=(o[f.t]||0)+1);return o};
@@ -603,7 +1190,7 @@ function todayView(){
   const dateStr=new Date().toLocaleDateString(lang==='hi'?'hi-IN':lang==='mr'?'mr-IN':'en-IN',{weekday:'long',day:'numeric',month:'short'});
 
   return `
-  <h1>${tr('todayTitle')}</h1>
+  ${helpHeader('today', tr('todayTitle'))}
   <p class="mut" style="margin-bottom:16px">${dateStr} · ${tr('todaySub')}</p>
 
   <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:20px">
@@ -704,13 +1291,29 @@ function dash(){
   const sm=`${B.length} beneficiaries across ${cs.length} communities: ${a} active, ${ar} at risk, ${dr} dropped out. Top follow-ups: ${q.slice(0,3).map(b=>b.n).join(', ')||'None'}. Lowest participation: ${lowComm}.`;
   lastSm=sm;
 
-  return `<h1>${tr('navSupervisor')}</h1>
+  return `${helpHeader('dashboard', tr('navSupervisor'))}
   <p class="mut" style="display:flex;align-items:center;gap:6px">${live?`<span class="badge Low">${I.checkCircle} Live database</span> Shared with team.`:`<span class="badge Medium">${I.shieldAlert} Demo mode</span> Local storage only.`}</p>
   <div class="grid">
     <div class="card"><b>${B.length}</b><span class="mut">${I.users} ${tr('enrolled')}</span></div>
     <div class="card"><b>${a}</b><span class="mut">${I.userCheck} ${tr('active')}</span></div>
     <div class="card"><b>${ar}</b><span class="mut">${I.alertTriangle} ${tr('atRisk')}</span></div>
     <div class="card"><b>${dr}</b><span class="mut">${I.userMinus} ${tr('droppedOut')}</span></div>
+  </div>
+
+  
+  <div class="card">
+    <h2>Risk distribution & cohort breakdown</h2>
+    ${chartRiskDonut()}
+  </div>
+
+  <div class="card">
+    <h2>Community coverage & participation</h2>
+    ${chartCoverageStrip()}
+  </div>
+
+  <div class="card">
+    <h2>Attendance trend by community</h2>
+    ${chartAttendanceTrend()}
   </div>
 
   <div class="card">
@@ -826,7 +1429,7 @@ function updateCommunitySummary(){
 
 function people(){
   formStep.p = 1;
-  return `<h1>${tr('navPeople')}</h1>
+  return `${helpHeader('people', tr('navPeople'))}
   <div class="card">
     <input id="q" placeholder="Search by child name" oninput="lst()" aria-label="Search beneficiaries">
     <div class="row">
@@ -921,44 +1524,79 @@ function lst(){
   el.innerHTML=filtered.map(b=>{
     const r=risk(b);
     const isHigh=!b.d&&r.level==='High';
-    return `<details class="card ${isHigh?'high-risk-highlight':''}">
-      <summary style="justify-content:space-between">
-        <div>
-          <b>${esc(b.n)}</b>
-          <span style="margin-left:6px">${riskBadge(r.level)}</span>
-          <span style="margin-left:4px">${statusBadge(st(b))}</span>
-        </div>
-        <span class="mut">${C[b.c]?C[b.c].n:b.c}</span>
-      </summary>
-      <div style="padding-top:10px;border-top:1px solid var(--bd);margin-top:8px">
-        <p class="mut" style="line-height:1.6">
-          <b>Guardian:</b> ${esc(b.g)}${b.ph?` · <span style="display:inline-flex;align-items:center;gap:3px">${I.phone} ${esc(b.ph)}</span>`:''} · <b>Track:</b> ${b.p} · <b>Lang:</b> ${b.lang.toUpperCase()}<br>
-          <b>Enrolled:</b> ${b.en?dt(b.en):'—'}${b.rf?` · <b>Referred by:</b> ${esc(b.rf)}`:''} · <b>Contact:</b> ${ld(b)} days ago · <b>Trend:</b> ${trd(b)}
-        </p>
-        <p>${dots(b)}</p>
-        <details style="margin:10px 0">
-          <summary class="mut" style="font-weight:600">${I.calendar} Session history and visit notes</summary>
-          <div style="padding:8px 0;font-size:13px">
-            ${(b.hs||[]).slice(-12).reverse().map(h=>`
-              <p class="mut" style="display:flex;align-items:center;gap:6px">
-                <span style="color:${h.v?'var(--lo)':'var(--hi)'}">${h.v?I.check:I.cross}</span> ${dt(h.d)} · ${h.v?'Present':'Absent'}
-              </p>
-            `).join('')||'<p class="mut">No sessions recorded yet.</p>'}
-            <p style="font-weight:600;margin-top:10px">${I.feedback} Engagement notes</p>
-            ${(b.nl||[]).slice(-5).reverse().map(n=>`<p class="mut"><b>${dt(n.t)}:</b> ${esc(n.x)}</p>`).join('')||'<p class="mut">No notes saved yet.</p>'}
+    const init = avatarInitials(b.n);
+    const daysAgo = ld(b);
+    const commName = C[b.c] ? C[b.c].n : b.c;
+
+    return `
+    <div class="profile-card ${isHigh ? 'high-risk-highlight' : ''}">
+      <div class="profile-top">
+        <div class="avatar" aria-hidden="true">${init}</div>
+        <div class="profile-info">
+          <div>
+            <b>${esc(b.n)}</b>
+            ${statusBadge(st(b))}
+            ${riskBadge(r.level)}
           </div>
-        </details>
-        <p><b>Flag reasons:</b> ${r.r.length?r.r.join('; '):'No risk flags'}</p>
-        <div style="margin-top:8px">
-          <input id="nt${b.id}" value="${esc(b.note)}" placeholder="Engagement note (e.g. exams, job, parent concerns)">
-          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">
-            <button class="g sm" onclick="svn(${b.id})">${I.check} Save note</button>
-            <button class="g sm" onclick="drp(${b.id})">${b.d?`${I.refresh} Reinstate`:`${I.userMinus} Mark dropped out`}</button>
-            <button class="btn sm" onclick="selB=${b.id};location.hash='messages'">${I.chat} Draft message</button>
+          <div class="mut" style="font-size:13px;margin:3px 0">
+            ${commName} · <b>${b.p}</b> · ${b.lang.toUpperCase()}
+          </div>
+          <div class="mut" style="font-size:12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+            <span>${I.clock} Contacted ${daysAgo} days ago</span>
+            ${b.ph ? `<span>· ${I.phone} ${esc(b.ph)}</span>` : ''}
+            ${b.rf ? `<span>· Ref: ${esc(b.rf)}</span>` : ''}
           </div>
         </div>
       </div>
-    </details>`;
+
+      <!-- Mini attendance strip -->
+      <div style="margin:12px 0 6px;padding:8px 10px;background:var(--bg);border-radius:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <span class="mut" style="font-size:11px;font-weight:600">Mini attendance strip (last 8 sessions)</span>
+          <span class="mut" style="font-size:11px">Trend: ${trd(b)}</span>
+        </div>
+        <div>${dots(b)}</div>
+      </div>
+
+      <!-- Quick action buttons -->
+      <div class="profile-quick-actions">
+        <a href="tel:${b.ph||''}" class="btn sm g" ${!b.ph?'onclick="toast(\'No phone number saved\');return false;"':''} style="text-decoration:none">
+          ${I.phone} ${tr('btnCall')}
+        </a>
+        <button class="btn sm g" onclick="selB=${b.id};location.hash='messages'">
+          ${I.chat} ${tr('btnMessage')}
+        </button>
+        <button class="btn sm g" onclick="openNoteModal(${b.id})">
+          ${I.plus} ${tr('btnAddNote')}
+        </button>
+        <button class="btn sm g" onclick="drp(${b.id})">
+          ${b.d ? `${I.refresh} Reinstate` : `${I.userMinus} Mark dropped out`}
+        </button>
+      </div>
+
+      <!-- One tap away: Session history & notes timeline -->
+      <details class="profile-tabs">
+        <summary>${I.calendar} ${tr('historyTimeline')}</summary>
+        <div style="padding:10px 0 4px;font-size:13px">
+          <p style="font-weight:600;margin:6px 0 4px">${I.calendar} Recent Sessions</p>
+          ${(b.hs||[]).slice(-12).reverse().map(h=>`
+            <p class="mut" style="display:flex;align-items:center;gap:6px;margin:3px 0">
+              <span style="color:${h.v?'var(--lo)':'var(--hi)'}">${h.v?I.check:I.cross}</span> ${dt(h.d)} · ${h.v?'Present':'Absent'}
+            </p>
+          `).join('')||'<p class="mut">No sessions recorded yet.</p>'}
+
+          <p style="font-weight:600;margin:12px 0 4px">${I.feedback} Engagement Notes</p>
+          ${(b.nl||[]).slice(-5).reverse().map(n=>`<p class="mut" style="margin:3px 0"><b>${dt(n.t)}:</b> ${esc(n.x)}</p>`).join('')||'<p class="mut">No notes saved yet.</p>'}
+          
+          <p style="margin:10px 0 4px"><b>Flag reasons:</b> ${r.r.length?r.r.join('; '):'No risk flags'}</p>
+
+          <div style="display:flex;gap:6px;margin-top:8px">
+            <input id="nt${b.id}" value="${esc(b.note)}" placeholder="Quick engagement note...">
+            <button class="g sm" style="flex-shrink:0" onclick="svn(${b.id})">${I.check} Save</button>
+          </div>
+        </div>
+      </details>
+    </div>`;
   }).join('');
 }
 
@@ -969,7 +1607,7 @@ function att(){
   const x=B.filter(b=>b.c==attC&&!b.d);
   const presentCount = x.length;
 
-  return `<h1>${tr('actAttendance')}</h1>
+  return `${helpHeader('attendance', tr('actAttendance'))}
   <p class="mut">Tap any card row to mark presence quickly with one hand.</p>
   <div class="card">
     <div class="row">
@@ -1108,7 +1746,7 @@ function plan(){
   }).filter(s=>s.sc>0).sort((a,b)=>b.sc-a.sc).slice(0,3);
   const upS=SS.filter(s=>s.c==pc&&s.w>=Date.now()-DAY).sort((a,b)=>a.w-b.w);
 
-  return `<h1>${tr('navPlanner')}</h1>
+  return `${helpHeader('planner', tr('navPlanner'))}
   <div class="card">
     <select onchange="pc=this.value;go()" aria-label="Select community pocket">${copts(pc)}</select>
     <p class="mut"><b>Age group:</b> ${C[pc].age} · <b>Interests:</b> ${C[pc].int.join(', ')} · <b>Issues:</b> ${C[pc].iss}</p>
@@ -1206,7 +1844,7 @@ const SG={
 const UP={en:'Important: ',hi:'ज़रूरी: ',mr:'महत्त्वाचे: '};
 
 function msg(){
-  if(!B.length)return `<h1>${tr('navComms')}</h1><div class="empty-state">${I.users}<h3>No beneficiaries available</h3><p class="mut">Add beneficiaries to draft messages.</p></div>`;
+  if(!B.length)return `${helpHeader('messages', tr('navComms'))}<div class="empty-state">${I.users}<h3>No beneficiaries available</h3><p class="mut">Add beneficiaries to draft messages.</p></div>`;
   const currB=B.find(x=>x.id===selB)||B[0];selB=currB.id;
   const o=[...B].sort((x,y)=>risk(y).s-risk(x).s).map(b=>[b.id,b.n+' ('+risk(b).level+' risk)']);
 
@@ -1278,7 +1916,7 @@ function gen(){
 }
 
 function field(){
-  return `<h1>${tr('navVoice')}</h1>
+  return `${helpHeader('field', tr('navVoice'))}
   <div class="card">
     <p class="mut">Speak or type your field visits. The system extracts names, communities, and visit outcomes.</p>
     <textarea id="f" placeholder="Example: Visited Deepak’s home in Mandala. Mother worried about evening timing. Registered new child Priya Kumari in Mandala."></textarea>
@@ -1450,7 +2088,7 @@ function svx(){
 function fb(){
   formStep.fb = 1;
   const cs=Object.keys(C);
-  return `<h1>${tr('navFeedback')}</h1>
+  return `${helpHeader('feedback', tr('navFeedback'))}
   <div class="card">
     <h2>Log a visit outcome (Guided steps)</h2>
     <div class="wizard-steps" role="navigation" aria-label="Feedback progress">
@@ -1681,7 +2319,7 @@ function mperf(){
 
 function team(){
   const d=dups();
-  return `<h1>${tr('navMap')}</h1>
+  return `${helpHeader('team', tr('navMap'))}
   <p class="mut">Active beneficiaries visited in the last 14 days by community pocket.</p>
   <div class="card">
     ${mapSvg()}
@@ -1794,7 +2432,28 @@ function rep(){
   B.forEach(b=>{if(b.rf&&B.some(x=>x.n==b.rf))ch[b.rf]=(ch[b.rf]||0)+1});
   const bars=r=>`<div>${r[0]} <span class="mut" style="font-weight:600">${r[1]}%</span><div class="bar"><i style="width:${r[1]}%"></i></div></div>`;
 
-  return `<h1>${tr('navReports')}</h1>
+  return `${helpHeader('reports', tr('navReports'))}
+  
+  <div class="card">
+    <h2>Attendance trend line per community</h2>
+    ${chartAttendanceTrend()}
+  </div>
+
+  <div class="card">
+    <h2>Monthly enrolment and cohort retention</h2>
+    ${chartMonthlyEnrolment()}
+  </div>
+
+  <div class="card">
+    <h2>Risk level donut breakdown</h2>
+    ${chartRiskDonut()}
+  </div>
+
+  <div class="card">
+    <h2>Community coverage strip</h2>
+    ${chartCoverageStrip()}
+  </div>
+
   <div class="card">
     <h2>Summary for supervisor</h2>
     <div id="rs"><p class="mut">Generate an instant plain-language briefing on cohort numbers.</p></div>
@@ -1947,7 +2606,7 @@ const mob=b=>b.mob!=null&&M[b.mob]?M[b.mob]:M.find(m=>m.c==b.c);
 /* Step-by-Step Community Creation */
 function comm(){
   formStep.c = 1;
-  return `<h1>${tr('navComm')}</h1>
+  return `${helpHeader('communities', tr('navComm'))}
   <p class="mut">Profiles of community pockets in Mankhurd.</p>
   <details class="card">
     <summary><b>${I.plus} Add new community pocket (Guided steps)</b></summary>
@@ -2062,7 +2721,7 @@ function rb(){
     </div>`;
   };
 
-  return `<h1>${tr('navRisk')}</h1>
+  return `${helpHeader('risk', tr('navRisk'))}
   <p class="mut">Early-warning indicators prioritize youth needing proactive mobilizer engagement.</p>
   <div class="cols">
     ${col('High Risk: Act now',b=>!b.d&&risk(b).level=='High','High','high-risk-highlight')}
@@ -2116,7 +2775,7 @@ const mapSvg=()=>{
 };
 
 function kb(){
-  return `<h1>${tr('navKB')}</h1>
+  return `${helpHeader('kb', tr('navKB'))}
   <div class="card">
     <input id="kq" placeholder="Ask about Magic Bus playbooks, OASYS guidelines, attendance rules…" onkeydown="if(event.key==='Enter')askKB()" aria-label="Knowledge base query">
     <button onclick="askKB()" id="askBtn">${I.sparkles} Search guidelines</button>
@@ -2244,12 +2903,19 @@ function go(){
   `).join('');
 
   document.body.classList.remove('menu');
-  $('#app').innerHTML = V[v]();
+  const appEl = $('#app');
+  appEl.classList.remove('screen-fade');
+  void appEl.offsetWidth;
+  appEl.classList.add('screen-fade');
+  appEl.innerHTML = V[v]();
 
   if(v==='people') lst();
   if(v==='messages') gen();
 }
 
 addEventListener('hashchange', ()=>{ go(); scrollTo(0,0); });
-go(); boot();
+go();
+if(!localStorage.getItem('sarthi_onboarded')){
+  setTimeout(() => openWalkthrough(0), 400);
+} boot();
 </script></body></html>
