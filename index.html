@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sarthi · Magic Bus Mobilization Assistant</title>
+<style>
+:root{--bg:#f8fafc;--card:#fff;--tx:#0f172a;--mut:#475569;--bd:#e2e8f0;--pri:#ff6b00;--pt:#0f172a;--nv:#0f172a;--hi:#b3261e;--hib:#fde7e5;--me:#7a5000;--meb:#fff1d6;--lo:#1e6b3a;--lob:#e1f3e7;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1220;--card:#162033;--tx:#f1f5f9;--mut:#a9b4c4;--bd:#2a3750;--pri:#ff8a3d;--pt:#0f172a;--nv:#ffb27a;--hib:#4a1f1c;--hi:#ffb4ab;--meb:#463408;--me:#ffd479;--lob:#16341f;--lo:#8fdba5;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b1220;--card:#162033;--tx:#f1f5f9;--mut:#a9b4c4;--bd:#2a3750;--pri:#ff8a3d;--pt:#0f172a;--nv:#ffb27a;--hib:#4a1f1c;--hi:#ffb4ab;--meb:#463408;--me:#ffd479;--lob:#16341f;--lo:#8fdba5;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:16px 14px 96px}
+#bn{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+#sb{position:fixed;top:0;bottom:0;left:0;width:250px;background:#0f172a;color:#cbd5e1;padding:calc(env(safe-area-inset-top,0px) + 16px) 12px 12px;overflow-y:auto;z-index:8;transform:translateX(-100%);transition:transform .2s;display:flex;flex-direction:column;gap:2px}
+.menu #sb{transform:none}
+#sb .br{display:flex;gap:10px;align-items:center;padding:4px 6px 16px}
+#sb .lg{width:40px;height:40px;border-radius:12px;background:#ff6b00;display:grid;place-items:center;font-size:20px;flex:none}
+#sb .br b{color:#fff;display:block;font-size:15px}
+#sb .br span{font-size:12px;color:#94a3b8}
+#sb a{display:flex;gap:12px;align-items:center;padding:11px 12px;border-radius:12px;color:#cbd5e1;text-decoration:none;font-size:14px;font-weight:500}
+#sb a b{font-weight:400;font-size:17px;width:22px;text-align:center;flex:none}
+#sb a.on{background:#ff6b00;color:#fff;font-weight:700}
+#sb a:hover:not(.on){background:#1e293b}
+#sb button{display:none;margin-top:auto;background:transparent;border:1px solid #334155;color:#cbd5e1}
+#top{position:sticky;top:env(safe-area-inset-top,0px);display:flex;gap:10px;align-items:center;padding:8px 14px;background:var(--card);border-bottom:1px solid var(--bd);z-index:4}
+#top button{background:transparent;color:var(--tx);font-size:20px;padding:2px 8px;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--card);z-index:10}
+#bn a{flex:1;text-align:center;padding:8px 2px;font-size:10px;color:var(--mut);text-decoration:none}
+#bn a b{display:block;font-size:18px;font-weight:400}
+#bn a.on{color:var(--nv);font-weight:700;box-shadow:inset 0 -3px var(--pri)}
+@media(min-width:800px){#top,#bn{display:none}#sb{transform:none;width:240px}#sb button{display:block}main{margin:0 auto 0 260px;padding-bottom:40px}.col #sb{width:76px}.col #sb .l,.col #sb .br>div:last-child{display:none}.col #sb a{justify-content:center}.col main{margin-left:96px}}
+h1{font-size:21px;margin:0 0 4px}h2{font-size:16px;margin:0 0 8px}p{margin:6px 0}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:12px}
+.grid .card{margin:0}.grid b{font-size:26px;display:block}
+.mut{color:var(--mut);font-size:13px}
+.badge{font-size:11px;padding:2px 8px;border-radius:99px;font-weight:700;background:var(--bd);white-space:nowrap}
+.High{background:var(--hib);color:var(--hi)}.Medium{background:var(--meb);color:var(--me)}.Low{background:var(--lob);color:var(--lo)}
+.bar{height:8px;background:var(--bd);border-radius:9px;overflow:hidden;margin:4px 0 8px}.bar i{display:block;height:100%;background:var(--pri)}
+input,select,textarea{width:100%;font:inherit;padding:9px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);margin:4px 0}
+textarea{min-height:110px}
+button{font:inherit;padding:9px 14px;border:0;border-radius:8px;background:var(--pri);color:var(--pt);cursor:pointer;font-weight:700;margin:4px 4px 4px 0}
+button.g{background:transparent;color:var(--nv);border:1px solid var(--pri)}
+.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1;min-width:130px}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--lo);margin-right:3px;vertical-align:middle}
+.dot.x{background:transparent;border:2px solid var(--hi)}
+.chk{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--bd)}.chk input{width:22px;height:22px;flex:none;margin:0}
+details summary{cursor:pointer}
+.q{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid var(--bd)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--tx);color:var(--bg);padding:8px 14px;border-radius:99px;font-size:13px;opacity:0;pointer-events:none;transition:.2s;z-index:9}.toast.s{opacity:1}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;align-items:start}
+.wave{display:none;gap:4px;align-items:flex-end;height:28px;margin:6px 0}.wave.on{display:flex}.wave i{width:5px;height:6px;background:var(--pri);border-radius:3px;animation:w 1s infinite ease-in-out}.wave i:nth-child(2){animation-delay:.15s}.wave i:nth-child(3){animation-delay:.3s}.wave i:nth-child(4){animation-delay:.45s}.wave i:nth-child(5){animation-delay:.6s}@keyframes w{0%,100%{height:6px}50%{height:26px}}@media(prefers-reduced-motion:reduce){.wave i{animation:none;height:16px}}
+</style></head><body>
+<header id=top><button onclick="document.body.classList.toggle('menu')" aria-label=Menu>☰</button><b>Sarthi</b><span class=mut>Magic Bus · Mankhurd</span></header><aside id=sb></aside><nav id=bn></nav><main id="app"></main><div id="t" class="toast"></div>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const C={m:{n:'Mandala',age:'13–17',int:['cricket','dance'],iss:'Evening safety, exam pressure'},b:{n:'Baiganwadi',age:'12–16',int:['music','studies'],iss:'Session timing clashes'},l:{n:'Lallubhai Compound',age:'14–18',int:['careers','cricket'],iss:'Transport cost, early work'},s:{n:'Shivaji Nagar',age:'12–15',int:['dance','quiz'],iss:'Low parent awareness'}};
+const B=[
+['Rohan Kamble','Sunita Kamble','m','Life Skills',[1,1,1,1,1,0,1,1],2,'','mr'],
+['Sana Shaikh','Rukhsar Shaikh','b','Livelihood',[1,1,0,1,0,0,0,0],12,'Family may be shifting out of the area','hi'],
+['Aditya Pawar','Mahesh Pawar','l','Life Skills',[1,1,1,0,1,1,1,0],4,'','mr'],
+['Pooja Yadav','Ramesh Yadav','s','Livelihood',[1,0,1,1,0,0,1,1],6,'Busy with exam preparation','hi'],
+['Imran Ansari','Nasreen Ansari','b','Life Skills',[1,1,0,0,0,1,0,0],9,'','hi'],
+['Kavya Nair','Lakshmi Nair','m','Livelihood',[1,1,1,1,1,1,1,1],1,'Enthusiastic, brings friends','en'],
+['Salman Khan','Farida Khan','l','Life Skills',[1,0,0,0,0,0,0,0],18,'Started working at a garage','hi',1],
+['Neha Gaikwad','Vandana Gaikwad','s','Life Skills',[1,1,1,0,0,1,1,1],3,'','mr'],
+['Deepak Jadhav','Sachin Jadhav','m','Livelihood',[1,1,0,1,1,0,0,0],11,'Mother raised a safety concern about evening sessions','mr'],
+['Ayesha Siddiqui','Shabana Siddiqui','b','Life Skills',[1,1,1,1,0,1,1,1],2,'','hi'],
+['Vikas Chauhan','Raju Chauhan','l','Livelihood',[0,1,0,0,1,0,0,0],14,'Works at a shop after school','hi'],
+['Mansi Sawant','Rekha Sawant','s','Life Skills',[1,1,1,1,1,1,0,1],2,'','mr'],
+['Faizan Qureshi','Zeenat Qureshi','b','Livelihood',[1,0,0,1,0,0,1,0],10,'','hi'],
+['Anjali Mishra','Sunil Mishra','m','Life Skills',[1,1,1,1,1,1,1,1],1,'','hi'],
+['Yash Bhosale','Dattaram Bhosale','s','Livelihood',[1,1,1,0,0,0,1,1],5,'','mr'],
+['Zoya Pathan','Salma Pathan','l','Life Skills',[1,1,1,1,0,0,0,0],7,'Exam week approaching','hi']
+].map((r,i)=>({id:i,n:r[0],g:r[1],c:r[2],p:r[3],a:r[4],last:r[5],note:r[6],lang:r[7],d:r[8]||0,lcd:Date.now()-r[5]*864e5,en:Date.now()-(i*11+8)*864e5,ph:'98200'+String(10000+i*137).slice(-5),rf:['Walk-in','School visit','Kavya Nair','Mobilizer visit','Anjali Mishra'][i%5],hs:r[4].map((v,k)=>({d:Date.now()-(r[4].length-k)*7*864e5,v})),nl:r[6]?[{t:Date.now()-r[5]*864e5,x:r[6]}]:[]}));
+const F=[['m','Safety','Refused','Parents worried about evening sessions'],['m','Safety','Refused','Girls not allowed out after dark'],['m','Safety','Undecided','Wants to see the venue first'],['m','Exam / school','Undecided','Exams in December'],['b','Timing','Refused','Clashes with madrasa hours'],['b','Timing','Refused','Prefers weekend mornings'],['l','Cost / transport','Refused','No bus fare for the session'],['l','Cost / transport','Refused','Travel is too far'],['l','Distrust','Undecided','Unsure what the programme offers'],['s','Distrust','Undecided','Parents unsure what Magic Bus does'],['s','Distrust','Undecided','Wants to meet a mentor first'],['s','Other','Interested','Heard from a neighbour','Mansi Sawant']].map((r,i)=>({c:r[0],t:r[1],o:r[2],note:r[3],r:r[4]||'',ts:Date.now()-(i*6+2)*864e5}));
+const H={m:[['Cricket skills clinic','High'],['Classroom talk','Low']],b:[['Classroom talk','Low']],l:[['Career talk with local alumni','High']],s:[['Classroom talk','Low'],['Daytime dance & music workshop','High']]};
+const L=[
+{f:'Cricket skills clinic',tg:['cricket'],ad:[],d:'90 min',m:'Bat, ball, cones',o:'Build a team habit through a sport hook'},
+{f:'Parent meet-and-greet',tg:[],ad:['Safety','Distrust'],d:'60 min',m:'Chairs, brochure, tea',o:'Let parents meet mentors, see the venue and ask questions'},
+{f:'Daytime dance & music workshop',tg:['dance','music'],ad:['Safety'],d:'75 min',m:'Speaker, open space',o:'Engage youth in daylight hours parents are comfortable with'},
+{f:'Career talk with local alumni',tg:['careers'],ad:['Cost / transport','Distrust'],d:'60 min',m:'Alumni speaker, flip chart',o:'Show a visible path to jobs through familiar faces'},
+{f:'Flexible drop-in session',tg:['quiz','studies'],ad:['Timing'],d:'45 min, two slots',m:'Quiz cards, markers',o:'Let families pick the slot that fits their day'},
+{f:'Study circle & exam-stress session',tg:['studies'],ad:['Exam / school'],d:'60 min',m:'Notebooks, timetable chart',o:'Support students through exam season'},
+{f:'In-pocket family session',tg:[],ad:['Cost / transport'],d:'Half day',m:'Brochures, route list',o:'Hold the session inside the pocket so there is no travel cost'},
+{f:'Weekend morning session',tg:[],ad:['Timing'],d:'60 min',m:'Mat, games kit',o:'Fit around madrasa and school hours'},
+{f:'Peer ambassador visit',tg:[],ad:['Distrust','Safety'],d:'45 min',m:'Peer ambassador, photos',o:'A trusted peer explains the programme at home'},
+{f:'Travel-support pilot day',tg:[],ad:['Cost / transport'],d:'Half day',m:'Bus passes, route map',o:'Remove the fare barrier for the first sessions'},
+{f:'Classroom talk',tg:[],ad:[],d:'60 min',m:'Slides',o:'Generic talk'}];
+const TH=['Safety','Timing','Cost / transport','Distrust','Exam / school','Other'];
+const LOG=[];let selB=0,attC='m',pc='m',tm,lastSm='';
+const sum=a=>a.reduce((x,y)=>x+y,0),pct=b=>b.a&&b.a.length?Math.round(sum(b.a)/b.a.length*100):100;
+const ld=b=>b.lcd!=null?Math.max(0,Math.floor((Date.now()-b.lcd)/864e5)):b.last,dt=t=>new Date(t).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'2-digit'}),mon=t=>new Date(t).toLocaleDateString('en-IN',{month:'short',year:'2-digit'});
+const trd=b=>{const h=b.a||[],k=h.length>>1;if(h.length<4)return'Too early';const f=sum(h.slice(0,k))/k,l=sum(h.slice(k))/(h.length-k);return l-f>.15?'Improving':f-l>.15?'Declining':'Steady'};
+let tp='w';const TGT={d:3,w:15,m:60},PD={d:1,w:7,m:30};
+const EV=[['Diwali (2026)',1106,1112,'low attendance and travel'],['December school exams',1201,1220,'exam pressure, prefer a short study circle'],['March school exams',301,325,'exam pressure'],['Monsoon',615,930,'waterlogged lanes, prefer in-pocket or indoor venues'],['Ganeshotsav (Sep, dates vary)',905,925,'evening crowding']];
+const md=d=>d.getMonth()*100+100+d.getDate(),tchk=v=>{if(!v)return'Pick a date to check it.';const p=String(v).split('-').map(Number);const x=(p.length===3&&!isNaN(p[1]))?p[1]*100+p[2]:md(new Date(v+'T12:00:00'));const h=EV.filter(e=>x>=e[1]&&x<=e[2]);return h.length?'⚠ '+h.map(e=>e[0]+': '+e[3]).join('; '):'No known clash on this date.'};
+const ctx=()=>{const t=new Date(),a=md(t),b=md(new Date(+t+30*864e5)),e2=b<a?1231:b,h=EV.filter(e=>a<=e[2]&&e2>=e[1]);return h.length?'Coming up in the next 30 days: '+h.map(e=>e[0]+' ('+e[3]+')').join('; '):'No known school or festival clashes in the next 30 days.'};
+const otr=k=>{const x=F.filter(f=>f.c==k&&f.o!='Interested'),N=Date.now(),n=x.filter(f=>f.ts>N-30*864e5).length,e=x.filter(f=>f.ts<=N-30*864e5&&f.ts>N-60*864e5).length;return`Last 30 days: ${n} · previous 30 days: ${e} (${n>e?'rising':n<e?'falling':'steady'})`};
+function risk(b){let s=0,r=[],k=0,a=b.a||[];for(let i=a.length-1;i>=0&&!a[i];i--)k++;
+if(k>=3){s+=3;r.push(k+' consecutive absences')}else if(k==2){s+=2;r.push('2 consecutive absences')}
+if(pct(b)<50){s+=2;r.push('attendance '+pct(b)+'% over last '+a.length+' sessions')}
+if(ld(b)>=10){s+=2;r.push('no contact in '+ld(b)+' days')}
+const m=(b.note||'').match(/exam|work|job|shift|safety|marriage/i);if(m){s+=1;r.push('notes mention “'+m[0].toLowerCase()+'”')}
+return{s,r,level:s>=5?'High':s>=3?'Medium':'Low'}}
+const st=b=>b.d?'Dropped out':risk(b).level!='Low'?'At risk':reeng(b)?'Re-engaged':'Active';
+const dots=b=>`<span aria-label="attendance ${pct(b)} percent">${(b.a||[]).map(v=>`<i class="dot ${v?'':'x'}"></i>`).join('')} ${pct(b)}%</span>`;
+function toast(m){const t=$('#t');t.textContent=m;t.classList.add('s');clearTimeout(tm);tm=setTimeout(()=>t.classList.remove('s'),2200)}
+async function cp(t){try{await navigator.clipboard.writeText(t);toast('Copied')}catch(e){toast('Select the text and copy it manually')}}
+const cavg=k=>{const x=B.filter(b=>b.c==k);return x.length?Math.round(sum(x.map(pct))/x.length):0};
+function addC(){const n=$('#cn').value.trim();if(!n)return toast('Enter a community name');if(Object.values(C).some(c=>c.n.toLowerCase()==n.toLowerCase()))return toast('That community already exists');const k='c'+Date.now().toString(36),d={k,n,age:$('#ca').value.trim()||'—',int:$('#ci').value.split(',').map(z=>z.trim().toLowerCase()).filter(Boolean),iss:$('#cs').value.trim()||'Not recorded yet'};C[k]={n:d.n,age:d.age,int:d.int,iss:d.iss};if(live)DB.doc('communities/'+k).set(d).catch(er);toast(live?'Community added':'Added locally (demo mode)');go()}
+const themes=c=>{const o={};F.filter(f=>f.c==c&&f.o!='Interested').forEach(f=>o[f.t]=(o[f.t]||0)+1);return o};
+const opts=(arr,sel)=>arr.map(a=>`<option value="${a[0]}" ${String(a[0])==String(sel)?'selected':''}>${esc(a[1])}</option>`).join('');
+const copts=sel=>opts(Object.keys(C).map(k=>[k,C[k].n]),sel);
+
+function dash(){const vn=LOG.filter(v=>v.ts>Date.now()-PD[tp]*DAY).length,nw=B.filter(b=>b.en>Date.now()-30*DAY).length,t2=[0,1].map(h=>{const x=B.filter(b=>(b.a||[]).length>=8);return x.length?Math.round(sum(x.map(b=>sum(b.a.slice(h*4,h*4+4))/4))/x.length*100):0}),up=SS.filter(s=>s.w>=Date.now()-DAY).sort((x,y)=>x.w-y.w).slice(0,4),a=B.filter(b=>st(b)=='Active'||st(b)=='Re-engaged').length,ar=B.filter(b=>st(b)=='At risk').length,dr=B.filter(b=>b.d).length;
+const q=B.filter(b=>!b.d&&risk(b).level!='Low').sort((x,y)=>risk(y).s-risk(x).s);
+const cs=Object.keys(C).sort((x,y)=>cavg(x)-cavg(y));
+const lowComm=cs.length?`${C[cs[0]].n} (${cavg(cs[0])}%)`:'None';
+const sm=`${B.length} beneficiaries across ${cs.length} communities: ${a} active, ${ar} at risk, ${dr} dropped out. Top follow-ups: ${q.slice(0,3).map(b=>b.n).join(', ')||'None'}. Lowest participation: ${lowComm}.`;
+lastSm=sm;
+return `<h1>Mankhurd Mobilization</h1><p class=mut>${live?'<span class="badge Low">● Live database</span> Shared with the whole team.':'<span class="badge Medium">Demo mode</span> Not connected to the database. Changes are not saved.'}</p>
+<div class=grid><div class=card><b>${B.length}</b><span class=mut>Enrolled</span></div><div class=card><b>${a}</b><span class=mut>Active</span></div><div class=card><b>${ar}</b><span class=mut>At risk</span></div><div class=card><b>${dr}</b><span class=mut>Dropped out</span></div></div>
+<div class=card><h2>Field visits</h2><select onchange="tp=this.value;go()"><option value=d ${tp=='d'?'selected':''}>Today</option><option value=w ${tp=='w'?'selected':''}>This week</option><option value=m ${tp=='m'?'selected':''}>This month</option></select><div class=bar><i style=width:${Math.min(100,vn/TGT[tp]*100)}%></i></div><span class=mut>${vn} of ${TGT[tp]} target (placeholder targets 3 / 15 / 60)</span></div><div class=card><h2>Registrations and attendance</h2><p>${nw} enrolled in the last 30 days · attendance ${t2[1]}% in the latest 4 sessions vs ${t2[0]}% in the 4 before</p></div>
+<div class=card><h2>Upcoming sessions</h2>${up.map(s=>`<div class=q><span>${esc(s.f)} · ${C[s.c]?C[s.c].n:''}</span><span class=mut>${new Date(s.w).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}</span></div>`).join('')||'<p class=mut>Nothing scheduled. Use the Planner to schedule a session.</p>'}</div>
+<div class=card><h2>Team performance</h2>${mperf()}</div>
+<div class=card><h2>Summary</h2><p>${esc(sm)}</p><p><a href=#reports>Open full reports →</a></p><button class=g onclick="cp(lastSm)">Copy summary</button></div>
+<div class=card><h2>Follow-up queue (highest risk first)</h2>${q.map(b=>{const r=risk(b);return `<div class=q><div><b>${esc(b.n)}</b> <span class="badge ${r.level}">${r.level}</span><br><span class=mut>${C[b.c]?C[b.c].n:''} · ${r.r.join('; ')}</span></div><button class=g onclick="selB=${b.id};location.hash='messages'">Message</button></div>`}).join('')||'<p class=mut>No follow-ups needed.</p>'}</div>
+<div class=card><h2>Community participation</h2>${Object.keys(C).map(k=>`<div>${C[k].n} <span class=mut>${cavg(k)}% avg attendance</span><div class=bar><i style="width:${cavg(k)}%"></i></div></div>`).join('')}</div>`}
+
+function people(){return `<h1>Beneficiaries</h1><div class=card><input id=q placeholder="Search by name" oninput="lst()"><div class=row><select id=fc onchange="lst()"><option value="">All communities</option>${copts()}</select><select id=fs onchange="lst()"><option value="">All statuses</option><option>Active</option><option>At risk</option><option>Re-engaged</option><option>Dropped out</option></select></div></div><details class=card><summary><b>+ Add beneficiary</b></summary><input id=an placeholder="Child name"><input id=ag placeholder="Guardian name"><div class=row><input id=ap2 placeholder="Guardian phone" inputmode=tel><input id=ar placeholder="Referral source (person, school, walk-in)"></div><div class=row><select id=ac>${copts()}</select><select id=ap><option>Life Skills</option><option>Livelihood</option></select><select id=al><option value=hi>हिन्दी</option><option value=mr>मराठी</option><option value=en>English</option></select></div><button onclick=addP()>Add</button></details><div id=list></div>`}
+function lst(){const q=($('#q')?$('#q').value:'').toLowerCase(),c=$('#fc')?$('#fc').value:'',s=$('#fs')?$('#fs').value:'';
+const el=$('#list');if(!el)return;
+el.innerHTML=B.filter(b=>(!q||b.n.toLowerCase().includes(q))&&(!c||b.c==c)&&(!s||st(b)==s)).sort((x,y)=>risk(y).s-risk(x).s).map(b=>{const r=risk(b);
+return `<details class=card><summary><b>${esc(b.n)}</b> <span class="badge ${r.level}">${r.level} risk</span> <span class=mut>${C[b.c]?C[b.c].n:b.c} · ${st(b)}</span></summary>
+<p class=mut>Guardian: ${esc(b.g)}${b.ph?' · 📞 '+esc(b.ph):''} · ${b.p} · Language: ${b.lang.toUpperCase()}<br>Enrolled ${b.en?dt(b.en):'—'}${b.rf?' · Referred by: '+esc(b.rf):''} · Last contact ${ld(b)} days ago · Trend: ${trd(b)}</p><p>${dots(b)}</p><details><summary class=mut>Attendance history and notes</summary>${(b.hs||[]).slice(-12).reverse().map(h=>`<p class=mut>${dt(h.d)} · ${h.v?'Present':'Absent'}</p>`).join('')||'<p class=mut>No sessions yet</p>'}<p class=mut><b>Notes</b></p>${(b.nl||[]).slice(-5).reverse().map(n=>`<p class=mut>${dt(n.t)}: ${esc(n.x)}</p>`).join('')||'<p class=mut>No notes yet</p>'}</details>
+<p><b>Why flagged:</b> ${r.r.length?r.r.join('; '):'No risk indicators'}</p><input id=nt${b.id} value="${esc(b.note)}" placeholder="Engagement note"><button class=g onclick=svn(${b.id})>Save note</button><button class=g onclick=drp(${b.id})>${b.d?'Reinstate':'Mark dropped out'}</button>
+<button class=g onclick="selB=${b.id};location.hash='messages'">Draft message</button></details>`}).join('')||'<p class=mut>No matches.</p>'}
+
+function att(){const x=B.filter(b=>b.c==attC&&!b.d);
+return `<h1>Attendance</h1><p class=mut>Tick everyone who attended today.</p><div class=card><select onchange="attC=this.value;go()">${copts(attC)}</select>
+${x.length?x.map(b=>`<label class=chk><input type=checkbox class=ck value=${b.id} checked><span>${esc(b.n)}<br><span class=mut>${dots(b)}</span></span></label>`).join(''):'<p class=mut>No active beneficiaries in this community.</p>'}
+<label class=mut>Session date</label><input type=date id=ad value="${new Date().toISOString().slice(0,10)}"><button onclick="saveAtt()">Save session</button></div>`}
+function saveAtt(){const dateVal=$('#ad').value;const sd=dateVal?new Date(dateVal+'T12:00:00').getTime():Date.now();const now=Date.now();document.querySelectorAll('.ck').forEach(x=>{const bId=+x.value,b=B.find(z=>z.id===bId)||B[bId];if(!b)return;const isPresent=x.checked?1:0;b.hs=(b.hs||[]).concat({d:sd,v:isPresent}).sort((p,q)=>p.d-q.d).slice(-24);b.a=b.hs.slice(-8).map(h=>h.v);if(isPresent){const sc=Math.min(sd,now);b.lcd=Math.max(b.lcd||0,sc);}sv('people/p'+b.id,{a:b.a,lcd:b.lcd,hs:b.hs})});toast(live?'Saved to database. Risk flags updated.':'Saved locally (demo mode).');go()}
+
+function plan(){const th=themes(pc),low=(H[pc]||[]).filter(x=>x[1]=='Low').map(x=>x[0]);
+const rec=L.filter(s=>!low.includes(s.f)).map(s=>{let sc=0,why=[];s.tg.filter(t=>C[pc].int.includes(t)).forEach(t=>{sc+=2;why.push('Matches community interest: '+t)});
+s.ad.forEach(t=>{if(th[t]){sc+=2+th[t];why.push(`Addresses ${t.toLowerCase()} concern (${th[t]} feedback reports)`)}});return{...s,sc,why}}).filter(s=>s.sc>0).sort((a,b)=>b.sc-a.sc).slice(0,3);
+const upS=SS.filter(s=>s.c==pc&&s.w>=Date.now()-DAY).sort((a,b)=>a.w-b.w);
+return `<h1>Session Planner</h1><div class=card><select onchange="pc=this.value;go()">${copts(pc)}</select>
+<p class=mut>Age group ${C[pc].age} · Interests: ${C[pc].int.join(', ')} · Local issues: ${C[pc].iss}</p>
+<p>${Object.entries(th).sort((a,b)=>b[1]-a[1]).map(e=>`<span class=badge>${e[0]} ×${e[1]}</span>`).join(' ')||'<span class=mut>No objections logged yet</span>'}</p>
+<p class=mut>Past sessions: ${(H[pc]||[]).map(x=>x[0]+' ('+x[1].toLowerCase()+' turnout)').join('; ')}</p></div>
+${rec.map((s,i)=>`<div class=card><h2>${i+1}. ${s.f}</h2><p>${s.o}</p><p class=mut>${s.d} · Materials: ${s.m}</p><ul class=mut>${s.why.map(w=>`<li>${w}</li>`).join('')}</ul></div>`).join('')||'<p class=mut>Log more feedback to get recommendations.</p>'}
+${low.length?`<p class=mut>Not suggested again because of low turnout: ${low.join(', ')}.</p>`:''}
+<div class=card><h2>Schedule a session</h2><div class=row><select id=sf>${L.map(s=>`<option>${s.f}</option>`).join('')}</select><input id=sd type=date oninput="$('#tc').textContent=tchk(this.value)" onchange="$('#tc').textContent=tchk(this.value)"></div><button onclick=schS()>Schedule for ${C[pc].n}</button></div>
+<div class=card><h2>Upcoming sessions for ${C[pc].n}</h2>${upS.map(s=>`<div class=q><span><b>${esc(s.f)}</b></span><span class=mut>${new Date(s.w).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</span></div>`).join('')||'<p class=mut>No upcoming sessions scheduled for '+C[pc].n+'.</p>'}</div>
+<button onclick=aiPlan()>✨ Generate AI session ideas</button><div id=ai></div><div class=card><h2>Log a past session outcome</h2><div class=row><select id=of>${L.map(s=>`<option>${s.f}</option>`).join('')}</select><select id=oo><option>High</option><option>Low</option></select></div><button class=g onclick=logO()>Save turnout</button><p class=mut>Low-turnout formats are not suggested again for ${C[pc].n}.</p></div><div class=card><h2>Timing</h2><p class=mut id=tc>${ctx()}</p></div>`}
+
+const T={en:{f:(n,g)=>`Hello ${g}, we have not seen ${n} at our last few sessions. Is everything alright? We would be glad to help in any way we can.`,r:(n,g,w)=>`Hello ${g}, a reminder that ${n}’s session is on ${w}. Please send ${n} along. We look forward to seeing them!`,g:(n,g)=>`Hello ${g}, we miss ${n} at Magic Bus! New sessions are starting and ${n} is always welcome. May we meet to talk?`,w:(n,g,w)=>`Hello ${g}, welcome to Magic Bus! ${n} is now enrolled. The first session is on ${w}.`},
+hi:{f:(n,g)=>`नमस्ते ${g} जी, हमने ${n} को पिछले कुछ सत्रों में नहीं देखा। सब ठीक तो है? हम हर संभव मदद के लिए तैयार हैं।`,r:(n,g,w)=>`नमस्ते ${g} जी, याद दिलाना चाहते हैं कि ${n} का सत्र ${w} को है। कृपया ${n} को ज़रूर भेजें।`,g:(n,g)=>`नमस्ते ${g} जी, Magic Bus में हमें ${n} की कमी खल रही है। नए सत्र शुरू हो रहे हैं। क्या हम मिलकर बात कर सकते हैं?`,w:(n,g,w)=>`नमस्ते ${g} जी, Magic Bus में ${n} का स्वागत है! पहला सत्र ${w} को है।`},
+mr:{f:(n,g)=>`नमस्कार ${g}, आम्ही ${n} ला मागच्या काही सत्रांमध्ये पाहिले नाही. सर्व ठीक आहे ना? आम्ही मदतीसाठी तयार आहोत.`,r:(n,g,w)=>`नमस्कार ${g}, ${n} चे सत्र ${w} रोजी आहे. कृपया ${n} ला नक्की पाठवा.`,g:(n,g)=>`नमस्कार ${g}, Magic Bus मध्ये आम्हाला ${n} ची आठवण येते. नवीन सत्रे सुरू होत आहेत. आपण भेटून बोलू शकतो का?`,w:(n,g,w)=>`नमस्कार ${g}, Magic Bus मध्ये ${n} चे स्वागत आहे! पहिले सत्र ${w} रोजी आहे.`}};
+const SG={en:{warm:'Warm regards,\nMagic Bus Mankhurd 🙏',formal:'Regards,\nMagic Bus Mankhurd Centre'},hi:{warm:'धन्यवाद,\nMagic Bus मानखुर्द 🙏',formal:'सादर,\nMagic Bus मानखुर्द केंद्र'},mr:{warm:'धन्यवाद,\nMagic Bus मानखुर्द 🙏',formal:'आपला,\nMagic Bus मानखुर्द केंद्र'}};
+const UP={en:'Important: ',hi:'ज़रूरी: ',mr:'महत्त्वाचे: '};
+function msg(){if(!B.length)return `<h1>AI Comms</h1><div class=card><p class=mut>No beneficiaries available.</p></div>`;
+const currB=B.find(x=>x.id===selB)||B[0];selB=currB.id;
+const o=[...B].sort((x,y)=>risk(y).s-risk(x).s).map(b=>[b.id,b.n+' ('+risk(b).level+')']);
+return `<h1>AI Comms</h1><div class=card><label class=mut>Beneficiary</label><select id=mb onchange="const b=B.find(x=>x.id==this.value);if(b)$('#ml').value=b.lang;gen()">${opts(o,selB)}</select>
+<div class=row><div><label class=mut>Message</label><select id=mt onchange=gen()><option value=f>Follow-up</option><option value=r>Session reminder</option><option value=g>Re-engagement</option><option value=w>Welcome</option></select></div>
+<div><label class=mut>Language</label><select id=ml onchange=gen()><option value=en ${currB.lang=='en'?'selected':''}>English</option><option value=hi ${currB.lang=='hi'?'selected':''}>हिन्दी</option><option value=mr ${currB.lang=='mr'?'selected':''}>मराठी</option></select></div>
+<div><label class=mut>Tone</label><select id=mo onchange=gen()><option value=warm>Warm</option><option value=formal>Formal</option><option value=urgent>Urgent</option></select></div></div>
+<label class=mut>Session day and time (for reminders and welcome)</label><input id=mw value="Saturday, 4 PM" oninput=gen()>
+<textarea id=out></textarea><button onclick=aiMsg()>✨ Draft with AI</button><button class=g onclick="cp($('#out').value)">Copy message</button>
+<p class=mut>Drafts are templates. Review before sending and have a native speaker check Hindi and Marathi wording.</p></div>`}
+function gen(){if(!$('#mb'))return;const bId=+$('#mb').value,b=B.find(z=>z.id===bId)||B[0];if(!b)return;
+const l=$('#ml').value||'hi',tn=$('#mo').value||'warm',w=$('#mw').value||'the scheduled time';
+const gName=b.g||'Guardian',cName=(b.n||'Youth').split(' ')[0];
+const tFn=(T[l]&&T[l][$('#mt').value])?T[l][$('#mt').value]:T.en.f;
+const sTxt=SG[l]?(SG[l][tn=='warm'?'warm':'formal']||SG.en.warm):SG.en.warm;
+$('#out').value=(tn=='urgent'?(UP[l]||''):'')+tFn(cName,gName,w)+'\n\n'+sTxt}
+
+function field(){return `<h1>Voice Log</h1><div class=card><p class=mut>Speak or type your day’s visits. Review what was found before saving.</p>
+<textarea id=f placeholder="Example: Visited Deepak’s home in Mandala. Mother worried about evening timing. Will follow up Saturday. Registered Anjali today."></textarea>
+<div class=row><select id=sl><option value=en-IN>English</option><option value=hi-IN>हिन्दी</option><option value=mr-IN>मराठी</option></select><select id=fm>${M.map(m=>`<option value=${m.i}>${esc(m.n)}</option>`).join('')}</select><button class=g onclick=mic()>🎤 Speak</button><button onclick=ext()>Extract details</button></div><div id=wv class=wave><i></i><i></i><i></i><i></i><i></i></div></div><div id=rv></div>
+<div class=card><h2>Saved today</h2>${LOG.map(l=>`<p>${l.ty} · ${esc(l.who)} · <span class=mut>${esc(l.c)}</span></p>`).join('')||'<p class=mut>Nothing saved yet.</p>'}</div>`}
+function mic(t='f'){const S=window.SpeechRecognition||window.webkitSpeechRecognition;if(!S)return toast('Voice input is not supported here. Please type.');
+try{const r=new S();r.lang=$('#sl').value;r.onresult=e=>{$('#'+t).value+=' '+[...e.results].map(x=>x[0].transcript).join(' ')};r.onerror=()=>toast('Microphone unavailable. Please type.');r.onend=()=>{const w=$('#wv');if(w)w.classList.remove('on')};r.start();const w=$('#wv');if(w)w.classList.add('on');toast('Listening…')}catch(e){toast('Microphone unavailable. Please type.')}}
+let EX=[];
+function rx(t){return t.split(/[.\n।]+/).map(s=>s.trim()).filter(Boolean).map(s=>{const l=s.toLowerCase(),b=B.find(x=>l.includes(x.n.toLowerCase()))||B.find(x=>l.includes(x.n.split(' ')[0].toLowerCase())),k=Object.keys(C).find(k=>l.includes(C[k].n.toLowerCase()))||(b&&b.c);
+const isReg=/regist|enrol|join/.test(l);let regName='';
+if(isReg&&!b){const m=s.match(/(?:regist\w*|enrol\w*|join\w*)\s+(?:a\s+)?(?:new\s+)?(?:child\s+|girl\s+|boy\s+|student\s+|beneficiary\s+|youth\s+)?([A-Za-z\p{L}]+(?:\s+[A-Za-z\p{L}]+)?)/iu);
+if(m){let cand=m[1].trim().replace(/\b(in|at|from|today|yesterday|now)\b.*/i,'').trim();Object.values(C).forEach(c=>{cand=cand.replace(new RegExp('\\b'+c.n+'\\b','gi'),'').trim()});if(cand.length>1)regName=cand.split(/\s+/).map(w=>w.charAt(0).toUpperCase()+w.slice(1).toLowerCase()).join(' ')}}
+return{ty:/refus|not interested|declin/.test(l)?'Refusal':isReg?'Registration':/follow|call back|come back|again/.test(l)?'Follow-up':'Visit',who:b?b.n:(regName||'(no match)'),c:k?C[k].n:'—',s,id:b?b.id:-1,regName}})}
+function show(){$('#rv').innerHTML=EX.length?`<div class=card><h2>Review before saving</h2>${EX.map((x,i)=>`<label class=chk><input type=checkbox class=ek value=${i} checked><span><b>${x.ty}</b> · ${esc(x.who)} · ${esc(x.c)}<br><span class=mut>${esc(x.s)}</span></span></label>`).join('')}<button onclick=svx()>Confirm and save</button></div>`:'<p class=mut>Nothing to extract yet.</p>'}
+async function ext(){const t=$('#f').value;EX=null;if(SA&&t.trim()){$('#rv').innerHTML='<p class=mut>Reading your report…</p>';try{const r=await SA.json(`Extract field-visit records from this mobilizer report (it may mix English, Hindi and Marathi). Return ONLY a JSON array of objects {type,who,community,summary}. type is one of Visit, Registration, Refusal, Follow-up. who must be an exact name from this list, or empty: ${B.map(b=>b.n).join(', ')}. community is one of ${Object.values(C).map(c=>c.n).join(', ')}, or empty.\nReport: ${t}`,{cache:false});EX=r.map(x=>{const i=B.findIndex(b=>b.n==x.who);return{ty:x.type,who:i>=0?x.who:'(no match)',c:x.community||(i>=0?C[B[i].c].n:'—'),s:x.summary,id:i}})}catch(e){EX=null}}
+if(!EX)EX=rx(t);show()}
+function svx(){const selM=+$('#fm').value,defComm=(M[selM]&&M[selM].c)||Object.keys(C)[0];document.querySelectorAll('.ek:checked').forEach(x=>{const e=EX[+x.value];e.m=selM;e.ts=Date.now();if(e.ty=='Registration'&&e.id<0){const ck=Object.keys(C).find(k=>C[k].n==e.c)||defComm;let name=e.regName;if(!name){const mt=e.s.match(/(?:regist\w*|enrol\w*|join\w*)\s+(?:a\s+)?(?:new\s+)?(?:child\s+|girl\s+|boy\s+|student\s+|beneficiary\s+|youth\s+)?([A-Za-z\p{L}]+(?:\s+[A-Za-z\p{L}]+)?)/iu);if(mt){let cand=mt[1].trim().replace(/\b(in|at|from|today|yesterday|now)\b.*/i,'').trim();Object.values(C).forEach(c=>{cand=cand.replace(new RegExp('\\b'+c.n+'\\b','gi'),'').trim()});if(cand.length>1)name=cand.split(/\s+/).map(w=>w.charAt(0).toUpperCase()+w.slice(1).toLowerCase()).join(' ')}}if(!name&&e.who&&e.who!=='(no match)')name=e.who;if(name&&ck){e.id=mk({n:name,c:ck,rf:'Mobilizer visit'});e.who=name;e.c=C[ck].n}}LOG.push(e);add('visits',e);if(e.id>=0){const b=B.find(z=>z.id===e.id)||B[e.id];if(b){b.lcd=Date.now();sv('people/p'+b.id,{lcd:b.lcd})}}});toast(live?'Saved to database':'Saved locally (demo mode)');go()}
+
+function fb(){const cs=Object.keys(C);
+return `<h1>Feedback</h1><div class=card><h2>Log a visit outcome</h2><div class=row><select id=fc2>${copts()}</select><select id=fo><option>Interested</option><option>Undecided</option><option>Refused</option></select><select id=ft>${TH.map(t=>`<option>${t}</option>`).join('')}</select></div>
+<select id=fb2 onchange="const bi=+this.value;if(bi>=0){const b=B.find(x=>x.id===bi)||B[bi];if(b)$('#fc2').value=b.c;}"><option value=-1>Beneficiary (optional)</option>${B.map(b=>`<option value=${b.id}>${esc(b.n)} (${C[b.c]?C[b.c].n:''})</option>`).join('')}</select><input id=fw placeholder="Household (optional)"><input id=fr placeholder="Referred by / community champion (optional)"><textarea id=fn placeholder="What did they say? Concerns, questions…"></textarea><div class=row><select id=sl><option value=en-IN>English</option><option value=hi-IN>हिन्दी</option><option value=mr-IN>मराठी</option></select><button class=g onclick="mic('fn')">🎤 Speak feedback</button></div><button onclick=svf()>Save feedback</button></div>
+<div class=card><h2>Objection themes by community</h2>${cs.map(k=>`<p><b>${C[k].n}</b><br>${Object.entries(themes(k)).sort((a,b)=>b[1]-a[1]).map(e=>`<span class=badge>${e[0]} ×${e[1]}</span>`).join(' ')||'<span class=mut>None yet</span>'}<br><span class=mut>${otr(k)}</span></p>`).join('')}<p class=mut>These themes feed the Session Planner.</p></div>
+<div class=card><h2>Recent</h2>${F.slice(0,6).map(f=>{const bObj=f.b>=0?(B.find(x=>x.id===f.b)||B[f.b]):null;return `<p>${C[f.c]?C[f.c].n:f.c} · ${f.o} · ${f.t}${bObj?' · '+esc(bObj.n):''}<br><span class=mut>${esc(f.note)}</span></p>`}).join('')}</div>`}
+function svf(){const bi=+$('#fb2').value,targetB=bi>=0?(B.find(x=>x.id===bi)||B[bi]):null;const cVal=targetB?targetB.c:$('#fc2').value;const noteText=($('#fw').value?$('#fw').value+': ':'')+$('#fn').value;const f={c:cVal,t:$('#ft').value,o:$('#fo').value,r:$('#fr').value.trim(),note:noteText,b:bi,ts:Date.now()};if(targetB){targetB.lcd=Date.now();if(noteText.trim()){targetB.nl=(targetB.nl||[]).concat({t:Date.now(),x:'[Feedback: '+$('#fo').value+' - '+$('#ft').value+'] '+noteText.trim()}).slice(-30);}sv('people/p'+targetB.id,{lcd:targetB.lcd,nl:targetB.nl})}F.unshift(f);add('feedback',f);toast(live?'Feedback saved to database':'Feedback saved locally (demo mode)');go()}
+
+let DB=null,SA=null,live=false;
+const er=()=>toast('Could not save. You may have view-only access.');
+const sv=(p,d)=>{if(live)DB.doc(p).update(d).catch(er)};
+const add=(c,d)=>{if(live)DB.collection(c).add({...d,ts:Date.now()}).catch(er)};
+const idle=()=>!/INPUT|TEXTAREA|SELECT|BUTTON/.test((document.activeElement||{}).tagName||'');
+async function boot(){try{SA=await claude.use('sample')}catch(e){}
+try{DB=await claude.use('db')}catch(e){}if(!DB)return;
+DB.collection('people').onSnapshot(s=>{live=!s.empty;if(live)B.splice(0,B.length,...s.docs.map(d=>d.data()).sort((x,y)=>x.i-y.i).map(x=>({...x,id:x.i})));if(idle())go()},()=>{});
+DB.collection('feedback').onSnapshot(s=>{if(s.empty&&!live)return;F.splice(0,F.length,...s.docs.map(d=>d.data()).sort((x,y)=>y.ts-x.ts));if(idle())go()},()=>{});
+DB.collection('visits').onSnapshot(s=>{if(s.empty&&!live)return;LOG.splice(0,LOG.length,...s.docs.map(d=>d.data()).sort((x,y)=>x.ts-y.ts));if(idle())go()},()=>{});
+DB.collection('mobilizers').onSnapshot(s=>{if(s.empty)return;M.splice(0,M.length,...s.docs.map(d=>d.data()).sort((x,y)=>x.i-y.i));if(idle())go()},()=>{});
+DB.collection('sessions').onSnapshot(s=>{if(s.empty&&!live)return;SS.splice(0,SS.length,...s.docs.map(d=>d.data()));if(idle())go()},()=>{});
+DB.collection('kb').onSnapshot(s=>{if(s.empty)return;KB.splice(0,KB.length,...s.docs.map(d=>d.data()).sort((a,b)=>a.ts-b.ts));if(idle())go()},()=>{});
+DB.collection('outcomes').onSnapshot(s=>{s.docs.forEach(d=>{const x=d.data();(H[x.c]=H[x.c]||[]);if(!H[x.c].some(h=>h[2]===x.k))H[x.c].push([x.f,x.o,x.k])});if(idle())go()},()=>{});
+DB.collection('communities').onSnapshot(s=>{s.docs.map(d=>d.data()).forEach(x=>{C[x.k]={n:x.n,age:x.age,int:x.int,iss:x.iss}});if(idle())go()},()=>{})}
+function mk(o){const i=B.length,p={i,n:o.n,g:o.g||'Guardian',c:o.c,p:o.p||'Life Skills',a:[],last:0,lcd:Date.now(),en:Date.now(),ph:o.ph||'',rf:o.rf||'',hs:[],nl:[],note:'',lang:o.lang||'hi',d:0};B.push({...p,id:i});if(live)DB.doc('people/p'+i).set(p).catch(er);return i}
+function addP(){const n=$('#an').value.trim();if(!n)return toast('Enter a name');mk({n,g:$('#ag').value.trim(),c:$('#ac').value,p:$('#ap').value,lang:$('#al').value,ph:$('#ap2').value.trim(),rf:$('#ar').value.trim()});toast(live?'Added to database':'Added locally (demo mode)');go()}
+function drp(i){const b=B.find(x=>x.id===i)||B[i];if(!b)return;b.d=b.d?0:1;sv('people/p'+b.id,{d:b.d});toast(b.d?'Marked as dropped out':'Reinstated');lst()}
+function pkt(i,v){M[i].pk=v;if(live)DB.doc('mobilizers/mb'+i).update({pk:v}).catch(er);toast('Pocket saved')}
+function logO(){const f=$('#of').value,o=$('#oo').value,k=Date.now();(H[pc]=H[pc]||[]).push([f,o,k]);add('outcomes',{c:pc,f,o,k});toast('Outcome saved');go()}
+async function aiMsg(){if(!SA)return toast('AI drafting is not available here');const bId=+$('#mb').value,b=B.find(x=>x.id===bId)||B[0];if(!b)return;const r=risk(b);$('#out').value='Drafting…';
+try{const x=await SA(`You write short WhatsApp messages from a Magic Bus India Foundation mobilizer in Mumbai to a child's guardian. Write ONE message only, no preamble.\nGuardian: ${b.g}\nChild first name: ${b.n.split(' ')[0]}\nWhat we noticed: ${r.r.filter(z=>!z.startsWith('notes')).join('; ')||'nothing specific'}\nMessage type: ${$('#mt').selectedOptions[0].text}\nTone: ${$('#mo').value}\nLanguage: ${$('#ml').selectedOptions[0].text} (use the native script)\nSession: ${$('#mw').value}\nUnder 60 words. Be kind and never mention risk, scores or private notes.`,{cache:false});$('#out').value=x.text.trim()}catch(e){toast('AI unavailable. Using the template.');gen()}}
+async function aiPlan(){if(!SA)return toast('AI is not available here');const el=$('#ai'),k=pc;el.innerHTML='<p class=mut>Thinking…</p>';
+try{let r=await SA.json(`You plan community sessions for Magic Bus India Foundation, Mankhurd, Mumbai. Return ONLY a JSON array of 3 objects with keys format, objective, duration, materials, why. "why" must cite the feedback themes or session history below.\nCommunity: ${C[k].n}; age ${C[k].age}; interests ${C[k].int.join(', ')}; local issues ${C[k].iss}\nObjection themes: ${JSON.stringify(themes(k))}\nRecent feedback: ${JSON.stringify(F.filter(f=>f.c==k).slice(0,8).map(f=>f.note))}\nPast sessions: ${JSON.stringify(H[k]||[])}\nDo not repeat low-turnout formats. Consider exams and Diwali in early November.`,{cache:false});if(!Array.isArray(r))r=[];
+el.innerHTML=r.map((s,i)=>`<div class=card><h2>AI idea ${i+1}: ${esc(s.format)}</h2><p>${esc(s.objective)}</p><p class=mut>${esc(s.duration)} · ${esc(s.materials)}</p><p class=mut><b>Why this works:</b> ${esc(s.why)}</p></div>`).join('')||'<p class=mut>No ideas returned.</p>'}catch(e){el.innerHTML='<p class=mut>AI unavailable. See the rule-based picks above.</p>'}}
+const M=[['Priya Verma','m','Lanes 1–6'],['Rahul Pawar','b','Lanes 1–4'],['Sunita Patil','l','Lanes 5–9'],['Aarav Sheikh','s','Main road side']].map((r,i)=>({i,n:r[0],c:r[1],pk:r[2]})),SS=[],DAY=864e5,prog=['Life Skills','Livelihood'];
+const agoT=t=>{const d=Math.max(0,Math.round((Date.now()-t)/DAY));return d?d+' days ago':'today'};
+const cov=k=>{const m=B.filter(b=>b.c==k&&!b.d),t=Date.now()-14*DAY,v=new Set(LOG.filter(x=>x.id>=0&&x.ts>t).map(x=>x.id));return m.length?Math.round(m.filter(b=>v.has(b.id)).length/m.length*100):0};
+function dups(){const t=Date.now()-7*DAY,o={};LOG.filter(x=>x.id>=0&&B[x.id]&&x.ts>t&&M[x.m]).forEach(x=>(o[x.id]=o[x.id]||new Set()).add(x.m));return Object.entries(o).filter(e=>e[1].size>1).map(e=>{const b=B.find(z=>z.id==e[0])||B[e[0]];return(b?b.n:'Child')+' was visited by '+[...e[1]].map(i=>M[i]?M[i].n:'Mobilizer').join(' and ')+' in the last 7 days'})}
+function mperf(){return M.map(m=>{const v=LOG.filter(x=>x.m===m.i);return `<div class=q><div><b>${esc(m.n)}</b><br><span class=mut>Beat: ${C[m.c]?C[m.c].n:m.c}${m.pk?' · '+esc(m.pk):''}</span></div><div class=mut style=text-align:right>${v.length} visits · ${v.filter(x=>x.ty=='Registration').length} registrations · ${v.filter(x=>x.ty=='Follow-up').length} follow-ups<br>${new Set(v.map(x=>x.id)).size} households</div></div>`}).join('')}
+function team(){const d=dups();
+return `<h1>Field Map</h1><p class=mut>Share of active beneficiaries visited in the last 14 days, by community pocket.</p>
+<div class=card>${mapSvg()}<p class=mut>Schematic view, not to scale. Orange dots are visits in the last 14 days.</p></div>
+<div class=grid>${Object.keys(C).map(k=>{const c=cov(k),l=c>=70?['Low','Well covered']:c>=40?['Medium','Partly covered']:['High','Needs visit'],mb=M.find(m=>m.c==k);return `<div class=card><span class="badge ${l[0]}">${l[1]}</span><b>${c}%</b><span class=mut>${C[k].n}<br>${mb?esc(mb.n):'No mobilizer assigned'}</span></div>`}).join('')}</div>
+${d.length?`<div class=card><h2>Duplicate-visit warnings</h2>${d.map(x=>`<p><span class="badge Medium">Check</span> ${esc(x)}</p>`).join('')}</div>`:''}
+<div class=card><h2>Beat assignments</h2>${M.map(m=>`<div class=q style=display:block><b>${esc(m.n)}</b><div class=row><select onchange="beat(${m.i},this.value)">${copts(m.c)}</select><input placeholder="Pocket / lanes" value="${esc(m.pk||'')}" onchange="pkt(${m.i},this.value)"></div></div>`).join('')}</div>
+<div class=card><h2>Team performance</h2>${mperf()}</div>
+<div class=card><h2>Recent visits</h2>${[...LOG].reverse().slice(0,8).map(x=>`<p>${agoT(x.ts||Date.now())} · ${M[x.m]?esc(M[x.m].n):'—'} · ${esc(x.who)} · ${esc(x.ty)}</p>`).join('')||'<p class=mut>No visits logged yet. Save a field report to see it here.</p>'}</div>`}
+function beat(i,v){M[i].c=v;if(live)DB.doc('mobilizers/mb'+i).update({c:v}).catch(er);toast(live?'Beat updated':'Beat updated locally (demo mode)');go()}
+function svn(i){const b=B.find(x=>x.id===i)||B[i];if(!b)return;const inp=$('#nt'+i),x=inp?inp.value.trim():'';if(x!==b.note){if(x)b.nl=(b.nl||[]).concat({t:Date.now(),x}).slice(-30);b.note=x;sv('people/p'+b.id,{note:x,nl:b.nl})}toast(live?'Note saved':'Note saved locally (demo mode)');lst()}
+function schS(){const v=$('#sd').value;if(!v)return toast('Pick a date');const wDate=new Date(v+'T12:00:00').getTime();const s={c:pc,f:$('#sf').value,w:wDate};SS.push(s);add('sessions',s);const w=tchk(v);toast(w.startsWith('⚠')?'Scheduled. '+w:live?'Session scheduled':'Scheduled locally (demo mode)');go()}
+const enr=()=>{const g={},E=B.filter(b=>b.en);[...E].sort((x,y)=>x.en-y.en).forEach(b=>{const m=mon(b.en);(g[m]=g[m]||[]).push(b)});return `<div class=card><h2>Enrollment and retention by month joined</h2>${Object.entries(g).map(([m,x])=>{const r=Math.round(x.filter(b=>!b.d).length/x.length*100);return `<p><b>${m}</b> · ${x.length} enrolled · ${r}% retained</p><div class=bar><i style=width:${r}%></i></div>`}).join('')}<h2>Recent enrollments</h2>${[...E].sort((x,y)=>y.en-x.en).slice(0,6).map(b=>`<p>${esc(b.n)} · <span class=mut>${C[b.c]?C[b.c].n:b.c} · ${b.p} · ${dt(b.en)}${b.rf?' · via '+esc(b.rf):''}</span></p>`).join('')}</div>`};
+const att2=()=>`<div class=card><h2>Attendance by community and program</h2>${Object.keys(C).map(k=>`<p><b>${C[k].n}</b><br><span class=mut>${prog.map(p=>{const x=B.filter(b=>b.c==k&&b.p==p&&!b.d);return p+': '+(x.length?Math.round(sum(x.map(pct))/x.length)+'%':'—')}).join(' · ')}</span></p>`).join('')}</div>`;
+function rep(){const tr=k=>{const x=B.filter(b=>b.c==k&&(b.a||[]).length>=8),f=(s,e)=>x.length?Math.round(sum(x.map(b=>sum(b.a.slice(s,e))/(e-s)))/x.length*100):0;return[f(0,4),f(4,8)]},ch={};F.filter(f=>f.r).forEach(f=>ch[f.r]=(ch[f.r]||0)+1);B.forEach(b=>{if(b.rf&&B.some(x=>x.n==b.rf))ch[b.rf]=(ch[b.rf]||0)+1});
+const bars=r=>`<div>${r[0]} <span class=mut>${r[1]}%</span><div class=bar><i style=width:${r[1]}%></i></div></div>`;
+return `<h1>Reports</h1><div class=card><h2>Summary for supervisor</h2><div id=rs><p class=mut>Generate a plain-language summary of these numbers.</p></div><button onclick=aiRep()>✨ Generate AI summary</button></div>
+${enr()}${att2()}<div class=card><h2>Program-wise</h2>${prog.map(p=>{const x=B.filter(b=>b.p==p),at=x.length?Math.round(sum(x.map(pct))/x.length):0,rt=x.length?Math.round(x.filter(b=>!b.d).length/x.length*100):0;return `<p><b>${p}</b> · ${x.length} enrolled</p>`+bars(['Average attendance',at])+bars(['Retention (not dropped out)',rt])}).join('')}</div>
+<div class=card><h2>Community-wise</h2>${Object.keys(C).map(k=>{const t=tr(k),x=B.filter(b=>b.c==k);return `<p><b>${C[k].n}</b> · ${x.length} enrolled · ${x.filter(b=>b.d).length} dropped out<br><span class=mut>Participation ${t[0]}% earlier, ${t[1]}% latest (${t[1]>t[0]?'rising':t[1]<t[0]?'falling':'steady'})</span></p>`}).join('')}</div>
+<div class=card><h2>Mobilizer performance</h2>${mperf()}</div>
+<div class=card><h2>Community champions and referrals</h2>${Object.entries(ch).sort((a,b)=>b[1]-a[1]).map(e=>`<p>${esc(e[0])} <span class=badge>${e[1]} referral${e[1]>1?'s':''}</span></p>`).join('')||'<p class=mut>None logged yet. Add a referrer when saving feedback.</p>'}</div>`}
+async function aiRep(){const el=$('#rs'),d={enrolled:B.length,droppedOut:B.filter(b=>b.d).length,atRisk:B.filter(b=>st(b)=='At risk').length,communities:Object.keys(C).map(k=>({name:C[k].n,avgAttendance:cavg(k),coverage:cov(k),objections:themes(k)})),team:M.map(m=>({name:m.n,visits:LOG.filter(x=>x.m===m.i).length})),duplicates:dups()};
+if(!SA){el.innerHTML=`<p>${d.enrolled} enrolled, ${d.atRisk} at risk, ${d.droppedOut} dropped out.</p>`;return}
+el.innerHTML='<p class=mut>Writing…</p>';
+try{const x=await SA(`Write a plain-language summary (under 120 words) for a Magic Bus Mankhurd supervisor. Lead with what needs attention. Use only the numbers given.\nData: ${JSON.stringify(d)}`,{cache:false});el.innerHTML='<p>'+esc(x.text.trim()).replace(/\n/g,'<br>')+'</p>'}catch(e){el.innerHTML=`<p>${d.enrolled} enrolled, ${d.atRisk} at risk, ${d.droppedOut} dropped out.</p>`}}
+const NAV=[['dashboard','🏠','Home'],['team','🗺️','Map'],['planner','📅','Planner'],['field','🎤','Voice'],['people','👥','People']];
+const SB=[['dashboard','Dashboard','▦'],['people','Beneficiaries','👥'],['communities','Communities','🏘️'],['attendance','Attendance','✅'],['risk','Risk Board','⚠️'],['messages','AI Comms','💬'],['planner','Session Planner','📅'],['team','Field Map','🗺️'],['field','Voice Log','🎤'],['feedback','Feedback','💭'],['kb','Knowledge Base','📖'],['reports','Reports','📊']];
+const KB=[
+{t:'Sarthi Mobilization Playbook & Standard Operating Procedures',x:`Sarthi is the Magic Bus Mobilization Assistant for the Mankhurd Centre in Mumbai.
+Community mobilization guidelines:
+Mobilizers conduct daily door-to-door visits and community engagement across Mandala, Baiganwadi, Lallubhai Compound, and Shivaji Nagar.
+Daily target is 3 visits, weekly target is 15 visits, and monthly target is 60 visits.
+When parents express safety concerns regarding evening sessions, mobilizers should recommend daytime sessions, parent meet-and-greets, or in-pocket family sessions.
+For timing clashes with school or madrasa hours, offer weekend morning or flexible drop-in sessions.
+For exam periods in December and March, hold short study circles and exam-stress support sessions.
+For monsoon season (June to September), schedule sessions in covered indoor venues or within the residential pockets to avoid waterlogged lanes.
+When youth are working or travel fare is a barrier, highlight livelihood placement pathways and offer travel support pilots.`},
+{t:'OASYS Attendance & Risk Flag Guidelines',x:`Magic Bus OASYS attendance tracking and early-warning dropout risk model:
+Attendance is recorded for each session. Risk scores are calculated based on consecutive absences, overall attendance rate, and gap since last contact.
+High risk indicates a risk score of 5 or higher: triggers immediate mobilizer follow-up, home visit, or guardian phone call.
+Medium risk indicates a risk score of 3 or 4: placed on the supervisor watchlist.
+Low risk indicates active engagement with a score below 3.
+A child missing 3 or more consecutive sessions receives 3 risk points. 2 consecutive absences adds 2 points.
+Attendance below 50% adds 2 points. No contact in 10 or more days adds 2 points.
+Notes indicating exams, work, shifts, or safety concerns add 1 point.
+Re-engaged status is assigned when a previously irregular child attends 2 consecutive sessions after prolonged absence.
+Dropped-out youth can be reinstated at any time when they resume participation.`}
+];
+const reeng=b=>{const a=b.a||[];let k=0;for(let i=a.length-1;i>=0&&a[i];i--)k++;if(k<2)return false;const r=a.slice(0,a.length-k);let n=0,mx=0;r.forEach(v=>{n=v?0:n+1;mx=Math.max(mx,n)});return mx>=3&&r.length>0&&!r[r.length-1]};
+const mob=b=>b.mob!=null&&M[b.mob]?M[b.mob]:M.find(m=>m.c==b.c);
+function comm(){return `<h1>Communities</h1><p class=mut>Profiles of the community pockets in Mankhurd.</p><details class=card><summary><b>+ Add community</b></summary><input id=cn placeholder="Community name"><div class=row><input id=ca placeholder="Age group, e.g. 13–17"><input id=ci placeholder="Interests, separated by commas"></div><input id=cs placeholder="Local issues"><button onclick=addC()>Add community</button></details>`+Object.keys(C).map(k=>{const x=B.filter(b=>b.c==k),mb=M.find(m=>m.c==k),th=themes(k),up=SS.filter(s=>s.c==k&&s.w>=Date.now()-DAY).sort((a,b)=>a.w-b.w)[0],n=s=>x.filter(b=>st(b)==s).length;
+return `<details class=card><summary><b>${C[k].n}</b> <span class=mut>${x.length} enrolled · ${cavg(k)}% attendance · coverage ${cov(k)}%</span></summary>
+<p class=mut>Age group ${C[k].age} · Interests: ${C[k].int.join(', ')} · Local issues: ${C[k].iss}</p>
+<p>Mobilizer: ${mb?esc(mb.n):'none assigned'}<br><span class=mut>Active ${n('Active')}, at risk ${n('At risk')}, re-engaged ${n('Re-engaged')}, dropped out ${n('Dropped out')}</span></p>
+<p>${Object.entries(th).map(e=>`<span class=badge>${e[0]} ×${e[1]}</span>`).join(' ')||'<span class=mut>No objections logged</span>'}</p>
+<p class=mut>Next session: ${up?esc(up.f)+' on '+new Date(up.w).toLocaleDateString('en-IN',{day:'numeric',month:'short'}):'none scheduled'}</p>
+${x.map(b=>`<div class=q><span>${esc(b.n)}</span><span class="badge ${risk(b).level}">${risk(b).level}</span></div>`).join('')}
+<button class=g onclick="pc='${k}';location.hash='planner'">Plan a session</button></details>`}).join('')}
+function rb(){const col=(t,f,cls)=>{const x=B.filter(f).sort((a,b)=>risk(b).s-risk(a).s);return `<div class=card><h2><span class="badge ${cls}">${t}</span> ${x.length}</h2>${x.map(b=>{const r=risk(b),m=mob(b);return `<div class=q style=display:block><b>${esc(b.n)}</b> <span class=mut>score ${r.s}</span><br><span class=mut>${C[b.c]?C[b.c].n:b.c} · ${m?esc(m.n):'No mobilizer'}</span><p>${r.r.map(z=>`<span class=badge>${esc(z)}</span>`).join(' ')||'<span class=mut>No risk indicators</span>'}</p><button class=g onclick=act(${b.id})>Take action</button></div>`}).join('')||'<p class=mut>No one here.</p>'}</div>`};
+return `<h1>Risk Board</h1><p class=mut>Highest risk first. Reasons come from attendance, contact gaps and notes.</p><div class=cols>${col('High risk: act now',b=>!b.d&&risk(b).level=='High','High')}${col('Medium risk: watchlist',b=>!b.d&&risk(b).level=='Medium','Medium')}${col('Re-engaged',b=>st(b)=='Re-engaged','Low')}${col('Dropped out',b=>!!b.d,'High')}</div>`}
+const cm=()=>{const d=$('#md');if(d)d.remove()};
+function act(i){cm();const b=B.find(x=>x.id===i)||B[i];if(!b)return;const m=mob(b),d=document.createElement('div');d.id='md';d.style.cssText='position:fixed;inset:0;background:#0009;display:grid;place-items:center;z-index:20;padding:16px';
+d.innerHTML=`<div class=card style=max-width:420px;width:100%><h2>${esc(b.n)}</h2><p class=mut>${risk(b).r.map(z=>esc(z)).join('; ')||'No risk indicators'}</p><button onclick="selB=${b.id};location.hash='messages'">Draft message</button><label class=mut>Assigned mobilizer</label><select onchange="asg(${b.id},this.value)">${M.map(x=>`<option value=${x.i} ${m&&m.i==x.i?'selected':''}>${esc(x.n)}</option>`).join('')}</select><button class=g onclick=cm()>Close</button></div>`;document.body.appendChild(d)}
+function asg(i,v){const b=B.find(x=>x.id===i)||B[i];if(b){b.mob=+v;sv('people/p'+b.id,{mob:+v});}toast(live?'Mobilizer assigned':'Assigned locally (demo mode)')}
+const mapSvg=()=>{const K=Object.keys(C),P=k=>{const i=K.indexOf(k);return[10+(i%2)*200,10+Math.floor(i/2)*100]};return `<svg viewBox='0 0 400 ${Math.ceil(K.length/2)*100+10}' style=width:100%;max-width:560px role=img aria-label='Schematic map of community pockets'>${Object.keys(C).map(k=>{const c=cov(k),f=c>=70?'#16a34a':c>=40?'#d97706':'#dc2626',p=P(k),v=LOG.filter(x=>x.c==C[k].n&&x.ts>Date.now()-14*DAY).slice(0,8);return `<rect x=${p[0]} y=${p[1]} width=180 height=90 rx=14 fill=${f} fill-opacity=.15 stroke=${f} stroke-width=2></rect><text x=${p[0]+12} y=${p[1]+26} font-size=14 font-weight=700 fill=currentColor>${C[k].n}</text><text x=${p[0]+12} y=${p[1]+46} font-size=12 fill=currentColor>${c}% covered</text>${v.map((x,i)=>`<circle cx=${p[0]+18+i*18} cy=${p[1]+70} r=6 fill=#ff6b00></circle>`).join('')}`}).join('')}</svg>`};
+function kb(){return `<h1>Knowledge Base</h1><div class=card><input id=kq placeholder="Ask about Magic Bus playbooks, OASYS guidelines, session toolkits…" onkeydown="if(event.key==='Enter')askKB()"><button onclick=askKB()>Ask</button><div id=ka></div></div>
+<div class=card><h2>Documents (${KB.length})</h2><p class=mut>Answers use only these documents. The two samples describe how this app works. Paste your real playbooks and guidelines to make answers useful.</p>${KB.map(d=>`<p><b>${esc(d.t)}</b><br><span class=mut>${esc(d.x.slice(0,110))}…</span></p>`).join('')||'<p class=mut>No documents yet.</p>'}<details><summary><b>+ Add document</b></summary><input id=kt placeholder=Title><textarea id=kx placeholder="Paste the text of the playbook or guideline"></textarea><button onclick=addKB()>Save document</button></details></div>`}
+async function askKB(){const q=$('#kq').value.trim(),el=$('#ka');if(!q)return;const sw=['the','and','what','how','are','for','does','with','this','that','from','can','when'],w=q.toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(z=>z.length>2&&!sw.includes(z)),
+r=KB.flatMap(d=>d.x.split(/\n+/).filter(p=>p.trim().length>20).map(p=>({t:d.t,x:p.trim()}))).map(c=>({...c,s:w.filter(z=>(c.t+' '+c.x).toLowerCase().includes(z)).length})).filter(c=>c.s>0).sort((a,b)=>b.s-a.s).slice(0,3);
+if(!r.length){el.innerHTML='<p class=mut>No matching passage found. Try different words, or add the relevant document below.</p>';return}
+const src=r.map(c=>`<p class=mut><b>${esc(c.t)}</b>: ${esc(c.x)}</p>`).join('');
+if(!SA){el.innerHTML='<h2>Matching passages</h2>'+src;return}
+el.innerHTML='<p class=mut>Searching…</p>';
+try{const x=await SA(`Answer the question using ONLY the passages below. Cite the document title in square brackets after each claim. If the passages do not answer it, say so.\nQuestion: ${q}\n\n`+r.map((c,i)=>`Passage ${i+1} [${c.t}]: ${c.x}`).join('\n'),{cache:false});el.innerHTML='<p>'+esc(x.text.trim()).replace(/\n/g,'<br>')+'</p><p>'+[...new Set(r.map(c=>c.t))].map(t=>`<span class=badge>${esc(t)}</span>`).join(' ')+'</p><details><summary class=mut>Source passages</summary>'+src+'</details>'}catch(e){el.innerHTML='<h2>Matching passages</h2>'+src}}
+function addKB(){const t=$('#kt').value.trim(),x=$('#kx').value.trim();if(!t||!x)return toast('Add a title and the text');const d={t,x};KB.push(d);add('kb',d);toast(live?'Document saved':'Saved locally (demo mode)');go()}
+const V={dashboard:dash,people,attendance:att,planner:plan,messages:msg,field,feedback:fb,team,reports:rep,communities:comm,risk:rb,kb};
+function go(){const h=(location.hash||'#dashboard').slice(1),v=V[h]?h:'dashboard',y=scrollY;
+cm();$('#sb').innerHTML=`<div class=br><div class=lg>🚌</div><div><b>Sarthi</b><span>Magic Bus · Mankhurd</span></div></div>`+SB.map(n=>`<a href="#${n[0]}" class="${n[0]==v?'on':''}"><b>${n[2]}</b><span class=l>${n[1]}</span></a>`).join('')+`<button onclick="document.body.classList.toggle('col')">⇤ Collapse</button>`;$('#bn').innerHTML=NAV.map(n=>`<a href="#${n[0]}" class="${n[0]==v?'on':''}"><b>${n[1]}</b>${n[2]}</a>`).join('');document.body.classList.remove('menu');
+$('#app').innerHTML=V[v]();if(v=='people')lst();if(v=='messages')gen();}
+addEventListener('hashchange',()=>{go();scrollTo(0,0)});go();boot();
+</script></body></html>
